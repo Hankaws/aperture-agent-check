@@ -151768,6 +151768,24 @@ function lineAt$1(starts, pos) {
 	}
 	return lo + 1;
 }
+const TS_EXT$1 = /\.(m|c)?tsx?$/i;
+/** `declare module "x" {`: an ambient module named by a string, with a body. */
+const STRING_MODULE = /^(\s*(?:export\s+)?(?:declare\s+)?module\s+)((["'])[^"'\n]*\3)(?=\s*\{)/gm;
+/** `declare module "*.svg";`: the same without one. */
+const BARE_STRING_MODULE = /^(\s*(?:export\s+)?declare\s+module\s+)((["'])[^"'\n]*\3)(?=\s*;|[ \t]*$)/gm;
+/**
+* Lezer's TypeScript grammar takes only an identifier after `module`, and
+* always a body, so the ambient module declarations every `.d.ts` and module
+* augmentation use (`declare module "@tanstack/react-router" {`,
+* `declare module "*.svg";`) parse as errors. The name is swapped for an
+* identifier of the same length (and a bodiless one gets `{}`), on the same
+* line, so the lines reported stay exact and an error inside a body is still
+* found.
+*/
+function withIdentifierModuleNames(text) {
+	const name = (quoted) => "_".repeat(quoted.length);
+	return text.replace(STRING_MODULE, (_all, head, quoted) => `${head}${name(quoted)}`).replace(BARE_STRING_MODULE, (_all, head, quoted) => `${head}${name(quoted)} {}`);
+}
 /**
 * Parse errors, one per line at most.
 *
@@ -151779,7 +151797,7 @@ function scriptIssues(path, text) {
 	if (text.length > MAX_PARSE_CHARS$2) return [];
 	let tree;
 	try {
-		tree = jsParserFor(path).parse(text);
+		tree = jsParserFor(path).parse(TS_EXT$1.test(path) ? withIdentifierModuleNames(text) : text);
 	} catch (error) {
 		return [error instanceof Error ? error.message.slice(0, 160) : "parse error"];
 	}
@@ -153761,7 +153779,7 @@ function summaryMarkdown(rows, meta) {
 		const shown = meta.notChecked.slice(0, 20).map((path) => `\`${path}\``).join(", ");
 		lines.push("", `Not checked: ${shown}${meta.notChecked.length > 20 ? `, and ${meta.notChecked.length - 20} more` : ""}.`);
 	}
-	lines.push("", "Same checks as the [Aperture](https://aperturesais.grok.me) editor. Nothing left this runner.");
+	lines.push("", "Same checks as the [Aperture](https://aperturesais.grok.me/agent-check) editor. Nothing left this runner.");
 	return `${lines.join("\n")}\n`;
 }
 //#endregion
@@ -153810,6 +153828,21 @@ function testsRunnable(cwd, script) {
 	if (pkg.hasDeps && !(0, node_fs.existsSync)((0, node_path.join)(cwd, "node_modules"))) return "the dependencies are not installed. Run npm ci (or your package manager's install) before this step.";
 	return null;
 }
+/**
+* The environment the project's tests get. NODE_TEST_CONTEXT is dropped: when
+* this tool itself runs under `node --test`, a project's `node --test` would
+* inherit it and report to a parent runner that is not listening, so its
+* failures would go unseen.
+*/
+function testEnv(env) {
+	const { NODE_TEST_CONTEXT: _parent, ...rest } = env;
+	return {
+		...rest,
+		CI: "true",
+		FORCE_COLOR: "0",
+		NO_COLOR: "1"
+	};
+}
 function runTests(cwd, script, timeoutMs) {
 	const why = testsRunnable(cwd, script);
 	if (why) return {
@@ -153818,12 +153851,7 @@ function runTests(cwd, script, timeoutMs) {
 	};
 	const run = (0, node_child_process.spawnSync)("npm", ["run", script], {
 		cwd,
-		env: {
-			...process.env,
-			CI: "true",
-			FORCE_COLOR: "0",
-			NO_COLOR: "1"
-		},
+		env: testEnv(process.env),
 		encoding: "utf8",
 		timeout: timeoutMs,
 		maxBuffer: 67108864,
