@@ -151744,7 +151744,7 @@ function jsParserFor(path) {
 */
 /** Beyond this a parse stops being worth the latency on every staged edit. */
 const MAX_PARSE_CHARS$2 = 4e5;
-const MAX_ISSUES$2 = 4;
+const MAX_ISSUES$3 = 4;
 const SCRIPT_EXT = /\.(m|c)?(j|t)sx?$/i;
 const JSON_EXT = /\.jsonc?$/i;
 function isScriptPath(path) {
@@ -151773,35 +151773,91 @@ const TS_EXT$1 = /\.(m|c)?tsx?$/i;
 const STRING_MODULE = /^(\s*(?:export\s+)?(?:declare\s+)?module\s+)((["'])[^"'\n]*\3)(?=\s*\{)/gm;
 /** `declare module "*.svg";`: the same without one. */
 const BARE_STRING_MODULE = /^(\s*(?:export\s+)?declare\s+module\s+)((["'])[^"'\n]*\3)(?=\s*;|[ \t]*$)/gm;
+/** `typeof import("./main")`: a module's type, in a type position. */
+const TYPEOF_IMPORT = /\b(typeof\s+)(import\s*\(\s*(["'])[^"'\n]*\3\s*\))/g;
+/** `(x): x is T =>`: a type predicate as a return type (Lezer reads it only on a `function`). */
+const TYPE_PREDICATE = /(\)\s*:\s*)((?:asserts\s+)?(?:[A-Za-z_$][\w$]*|this)\s+is)(?=\s)/g;
 /**
 * Lezer's TypeScript grammar takes only an identifier after `module`, and
 * always a body, so the ambient module declarations every `.d.ts` and module
 * augmentation use (`declare module "@tanstack/react-router" {`,
-* `declare module "*.svg";`) parse as errors. The name is swapped for an
-* identifier of the same length (and a bodiless one gets `{}`), on the same
-* line, so the lines reported stay exact and an error inside a body is still
-* found.
+* `declare module "*.svg";`) parse as errors; so does `typeof import("x")`.
+* Each is swapped for an identifier of the same length (and a bodiless module
+* gets `{}`), on the same line, so the lines reported stay exact and an error
+* anywhere else is still found. An arrow function's type predicate,
+* `(x): x is T =>`, keeps its type with `x is` blanked to spaces.
 */
-function withIdentifierModuleNames(text) {
+function withIdentifierNames(text) {
 	const name = (quoted) => "_".repeat(quoted.length);
-	return text.replace(STRING_MODULE, (_all, head, quoted) => `${head}${name(quoted)}`).replace(BARE_STRING_MODULE, (_all, head, quoted) => `${head}${name(quoted)} {}`);
+	return text.replace(STRING_MODULE, (_all, head, quoted) => `${head}${name(quoted)}`).replace(BARE_STRING_MODULE, (_all, head, quoted) => `${head}${name(quoted)} {}`).replace(TYPEOF_IMPORT, (_all, head, call) => `${head}${name(call)}`).replace(TYPE_PREDICATE, (_all, head, subject) => `${head}${" ".repeat(subject.length)}`);
+}
+/**
+* In JSX children, braces holding nothing or only a comment are valid (an
+* empty expression, the usual way to write a comment in JSX), but Lezer's
+* grammar wants an expression there: it marks an error before the closing
+* brace, and its recovery can carry the error into the lines after. True for
+* an error node inside a JSXEscape with only whitespace or comments between
+* the opening brace and it, and the closing brace next.
+*/
+function isEmptyJsxExpression(text, node) {
+	const escape = node.parent;
+	if (escape?.name !== "JSXEscape") return null;
+	return text.slice(escape.from + 1, node.from).replace(/\/\*[\s\S]*?\*\//g, "").trim() === "" && /^\s*\}/.test(text.slice(node.from)) ? escape : null;
+}
+/** At most this many empty JSX expressions are filled in, each with a parse. */
+const MAX_EMPTY_JSX = 200;
+/**
+* Parses `text`, filling each empty JSX expression with a `0` right after
+* its opening brace (found in the tree, so never an object literal) and
+* parsing again. No line break is added, so every line keeps its number.
+*/
+function parseFillingEmptyJsx(path, text) {
+	const parser = jsParserFor(path);
+	let source = text;
+	for (let round = 0;; round += 1) {
+		const tree = parser.parse(source);
+		if (round >= MAX_EMPTY_JSX) return {
+			tree,
+			text: source
+		};
+		let escape = null;
+		const cursor = tree.cursor();
+		do
+			if (cursor.type.isError) escape = isEmptyJsxExpression(source, cursor.node);
+		while (!escape && cursor.next());
+		if (!escape) return {
+			tree,
+			text: source
+		};
+		source = `${source.slice(0, escape.from + 1)}0${source.slice(escape.from + 1)}`;
+	}
 }
 /**
 * Parse errors, one per line at most.
 *
 * Lezer recovers and carries on, so a single mistake often yields a run of
 * adjacent error nodes; reporting each one would bury the real cause.
+*
+* Lezer does not know all of TypeScript. When it finds errors and `confirm`
+* is given (TypeScript's own parser, see ts-parse.ts), that has the last
+* word: its errors, or none, unless it has no opinion on the file.
 */
-function scriptIssues(path, text) {
+function scriptIssues(path, text, confirm) {
+	const found = lezerIssues(path, text);
+	if (found.length === 0 || !confirm) return found;
+	return confirm(path, text) ?? found;
+}
+function lezerIssues(path, text) {
 	if (!text.trim()) return [];
 	if (text.length > MAX_PARSE_CHARS$2) return [];
-	let tree;
+	let parsed;
 	try {
-		tree = jsParserFor(path).parse(TS_EXT$1.test(path) ? withIdentifierModuleNames(text) : text);
+		parsed = parseFillingEmptyJsx(path, TS_EXT$1.test(path) ? withIdentifierNames(text) : text);
 	} catch (error) {
 		return [error instanceof Error ? error.message.slice(0, 160) : "parse error"];
 	}
-	const starts = lineStarts$1(text);
+	const { tree } = parsed;
+	const starts = lineStarts$1(parsed.text);
 	const lines = /* @__PURE__ */ new Set();
 	const cursor = tree.cursor();
 	do
@@ -151809,8 +151865,8 @@ function scriptIssues(path, text) {
 	while (cursor.next());
 	if (lines.size === 0) return [];
 	const sorted = [...lines].sort((a, b) => a - b);
-	const shown = sorted.slice(0, MAX_ISSUES$2).map((line) => `parse error at line ${line}`);
-	if (sorted.length > MAX_ISSUES$2) shown.push(`+${sorted.length - MAX_ISSUES$2} more parse errors`);
+	const shown = sorted.slice(0, MAX_ISSUES$3).map((line) => `parse error at line ${line}`);
+	if (sorted.length > MAX_ISSUES$3) shown.push(`+${sorted.length - MAX_ISSUES$3} more parse errors`);
 	return shown;
 }
 /**
@@ -151886,7 +151942,7 @@ function jsonIssues(text) {
 * be certain about is silently allowed.
 */
 const MAX_PARSE_CHARS$1 = 4e5;
-const MAX_ISSUES$1 = 4;
+const MAX_ISSUES$2 = 4;
 /** Tried in order against a relative specifier, longest-lived conventions first. */
 const EXTENSIONS = [
 	"",
@@ -152177,7 +152233,7 @@ function importIssues(path, files) {
 		if (exported.unknown) continue;
 		for (const name of ref.names) if (!exported.names.has(name)) issues.push(`imports { ${name} } from "${ref.spec}" at line ${ref.line}, which does not export it`);
 	}
-	return [...new Set(issues)].slice(0, MAX_ISSUES$1);
+	return [...new Set(issues)].slice(0, MAX_ISSUES$2);
 }
 //#endregion
 //#region src/lib/workspace/preview-check.ts
@@ -152249,11 +152305,12 @@ function cssIssues(css) {
 	if (depth > 0) return [`${depth} unclosed {`];
 	return [];
 }
-function issuesForText(path, text) {
+/** `parse`: TypeScript's parser, where it is loaded, to overrule a parse error Lezer gets wrong. */
+function issuesForText(path, text, parse) {
 	if (/\.html?$/i.test(path)) return htmlIssues(text);
 	if (/\.css$/i.test(path)) return cssIssues(text);
 	if (isJsonPath(path)) return jsonIssues(text);
-	if (isScriptPath(path)) return scriptIssues(path, text);
+	if (isScriptPath(path)) return scriptIssues(path, text, parse);
 	return [];
 }
 function mergeEdits(files, edits) {
@@ -152264,7 +152321,7 @@ function mergeEdits(files, edits) {
 //#endregion
 //#region src/lib/workspace/type-check.ts
 const MAX_PARSE_CHARS = 4e5;
-const MAX_ISSUES = 4;
+const MAX_ISSUES$1 = 4;
 const TS_EXT = /\.(m|c)?tsx?$/i;
 const GLOBALS = /* @__PURE__ */ new Set([
 	"Array",
@@ -152697,7 +152754,7 @@ function typeIssues(path, input, files) {
 	const bindings = bindingsIn(root, text);
 	const sigs = collectSignatures({ [path]: text });
 	parsed.iterate({ enter(node) {
-		if (issues.length >= MAX_ISSUES) return;
+		if (issues.length >= MAX_ISSUES$1) return;
 		if (node.name === "VariableDeclaration" || node.name === "PropertyDeclaration") {
 			const ann = annotationText(node.node, text);
 			const init = initializer(node.node);
@@ -152768,7 +152825,7 @@ function typeIssues(path, input, files) {
 			pushIssue(issues, starts, node.from, `cannot find name ${name}`);
 		}
 	} });
-	return issues.slice(0, MAX_ISSUES);
+	return issues.slice(0, MAX_ISSUES$1);
 }
 //#endregion
 //#region src/lib/runner/stack.ts
@@ -152878,16 +152935,24 @@ function tscRow(tsc, typed, files) {
 function plural(n, word) {
 	return `${n} ${word}${n === 1 ? "" : "s"}`;
 }
+/**
+* A finished tsc run as a parse check: it read every file it was asked about
+* with TypeScript's own parser. No opinion on a file it was not asked about.
+*/
+function tscParseCheck(tsc) {
+	return (path) => tsc.parse?.[path] ?? null;
+}
 function changeChecks(input) {
 	const { files, edits, render, verify } = input;
 	const snapshot = mergeEdits(files, edits);
 	const checkable = [...new Set(edits.map((e) => e.path).filter(isCheckablePath))];
 	const scripts = checkable.filter(isScriptPath);
+	const parse = input.parse ?? (input.tsc?.state === "done" ? tscParseCheck(input.tsc) : void 0);
 	const broken = checkable.map((path) => ({
 		path,
-		issues: issuesForText(path, snapshot[path] ?? "")
+		issues: issuesForText(path, snapshot[path] ?? "", parse)
 	})).filter((r) => r.issues.length > 0);
-	const parse = checkable.length === 0 ? {
+	const parsesRow = checkable.length === 0 ? {
 		id: "parse",
 		label: "Parses",
 		status: "skip",
@@ -152932,7 +152997,7 @@ function changeChecks(input) {
 		detail: `Nothing this light check can prove in ${plural(typed.length, "file")}. Not tsc.`
 	};
 	return [
-		parse,
+		parsesRow,
 		imports,
 		!checkable.some(isTypePath) ? {
 			id: "types",
@@ -153117,6 +153182,37 @@ function testsRow(verify, browser) {
 	};
 }
 //#endregion
+//#region src/lib/workspace/ts-parse.ts
+const MAX_ISSUES = 4;
+function scriptKind(t, path) {
+	if (/\.tsx$/i.test(path)) return t.ScriptKind.TSX;
+	if (/\.(m|c)?ts$/i.test(path)) return t.ScriptKind.TS;
+	if (/\.jsx$/i.test(path)) return t.ScriptKind.JSX;
+	return /\.(m|c)?js$/i.test(path) ? t.ScriptKind.JSX : t.ScriptKind.Unknown;
+}
+/** Parse errors in Lezer's words, with TypeScript's message: one per line, at most a few. */
+function parseErrorLines(found) {
+	const byLine = /* @__PURE__ */ new Map();
+	for (const { line, message } of found) if (!byLine.has(line)) byLine.set(line, `parse error at line ${line}: ${message.slice(0, 160)}`);
+	const lines = [...byLine.keys()].sort((a, b) => a - b);
+	const shown = lines.slice(0, MAX_ISSUES).map((line) => byLine.get(line));
+	if (lines.length > MAX_ISSUES) shown.push(`+${lines.length - MAX_ISSUES} more parse errors`);
+	return shown;
+}
+/** The syntax errors TypeScript's parser reports for `text`. */
+function tsParseIssues(t, path, text) {
+	const file = t.createSourceFile(path, text, t.ScriptTarget.Latest, false, scriptKind(t, path));
+	const found = file.parseDiagnostics;
+	return parseErrorLines((found ?? []).map((diagnostic) => ({
+		line: file.getLineAndCharacterOfPosition(diagnostic.start).line + 1,
+		message: t.flattenDiagnosticMessageText(diagnostic.messageText, " ")
+	})));
+}
+/** TypeScript's parser as a `ParseCheck`, for scripts it reads. */
+function tsParseCheck(t) {
+	return (path, text) => tsParseIssues(t, path, text);
+}
+//#endregion
 //#region src/lib/workspace/tsc-core.ts
 /** Projects bigger than this are left to the light check: the compiler would take too long in a tab. */
 const TSC_LIMITS = {
@@ -153272,16 +153368,19 @@ function checkProject(ts, files, paths, libs, options, cache = /* @__PURE__ */ n
 	for (const path of paths) {
 		const file = program.getSourceFile(`/${path}`);
 		if (!file) continue;
-		const found = [...program.getSyntacticDiagnostics(file), ...program.getSemanticDiagnostics(file)];
+		const syntactic = program.getSyntacticDiagnostics(file);
+		const found = [...syntactic, ...program.getSemanticDiagnostics(file)];
 		const rows = [];
 		for (const diagnostic of found) {
 			const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, " ");
 			if (missingPackageTypes(diagnostic, message)) continue;
 			const line = diagnostic.start === void 0 ? 1 : file.getLineAndCharacterOfPosition(diagnostic.start).line + 1;
+			const syntax = syntactic.includes(diagnostic) ? { syntax: true } : {};
 			rows.push({
 				line,
 				code: diagnostic.code,
-				message: message.slice(0, 300)
+				message: message.slice(0, 300),
+				...syntax
 			});
 		}
 		diagnostics[path] = rows;
@@ -153296,6 +153395,11 @@ function checkProject(ts, files, paths, libs, options, cache = /* @__PURE__ */ n
 * One diagnostic as the check strip, the margin and the agent read it. "at
 * line N" lets the margin place it; the code and message are what tsc says.
 */
+/** Each checked file's parse errors, as TypeScript's parser found them (none: it parses). */
+function parseErrorsOf(result) {
+	if (!result.ok) return {};
+	return Object.fromEntries(Object.entries(result.diagnostics).map(([path, rows]) => [path, parseErrorLines(rows.filter((row) => row.syntax))]));
+}
 function tscIssue(diagnostic) {
 	return `TS${diagnostic.code} at line ${diagnostic.line}: ${diagnostic.message}`;
 }
@@ -153361,6 +153465,7 @@ function typecheckChange(tsc, before, after, changed, readLib, cache, limits, in
 		state: "done",
 		after: issues(afterResult),
 		before: issues(beforeResult),
+		parse: parseErrorsOf(afterResult),
 		checked: afterResult.files,
 		ms: Date.now() - started
 	};
@@ -153453,7 +153558,8 @@ function staticChangeChecks(input) {
 		],
 		render: null,
 		browser: input.tests,
-		tsc: tscCheck
+		tsc: tscCheck,
+		parse: tsParseCheck(input.tsc)
 	}), importers, input.before, after);
 }
 //#endregion
@@ -153624,6 +153730,8 @@ function installedFiles(cwd) {
 * The files the checks read, before and after the change: every JavaScript,
 * TypeScript, JSON, HTML and CSS file in the project, so an import, a caller
 * or a test that a change breaks is in view, not only the changed files.
+* Every other file is there too, unread and empty, so that an import of
+* `./logo.svg` or `./notes.md?raw` finds it.
 */
 const LOAD_LIMITS = {
 	files: 5e3,
@@ -153640,7 +153748,8 @@ function loadProject(cwd, rev) {
 	const deleted = [];
 	const notChecked = [];
 	const changed = changedFiles(rev, cwd);
-	const listed = filesAt(rev, cwd).filter((file) => isRelevant(file.path) && file.bytes <= LOAD_LIMITS.fileBytes);
+	const tracked = filesAt(rev, cwd);
+	const listed = tracked.filter((file) => isRelevant(file.path) && file.bytes <= LOAD_LIMITS.fileBytes);
 	const total = listed.reduce((n, file) => n + file.bytes, 0);
 	if (listed.length > LOAD_LIMITS.files || total > LOAD_LIMITS.totalBytes) return {
 		before: {},
@@ -153650,9 +153759,12 @@ function loadProject(cwd, rev) {
 		tooLarge: `The project has ${listed.length.toLocaleString("en-US")} files to read (${Math.round(total / 1e6)} MB); the limit is ${LOAD_LIMITS.files.toLocaleString("en-US")} files and ${LOAD_LIMITS.totalBytes / 1e6} MB.`
 	};
 	const before = readAt(rev, listed.map((file) => file.path), cwd);
+	for (const file of tracked) if (!RELEVANT.test(file.path) && !SKIPPED_DIR.test(file.path)) before[file.path] = "";
 	for (const change of changed) {
 		if (!isRelevant(change.path)) {
 			notChecked.push(change.path);
+			if (change.status === "D") delete before[change.path];
+			else if (!SKIPPED_DIR.test(change.path)) before[change.path] ??= "";
 			continue;
 		}
 		if (change.status === "D") {
@@ -153883,7 +153995,7 @@ function runTests(cwd, script, timeoutMs) {
 * The same script on the base, in a throwaway worktree that borrows this
 * checkout's node_modules. Null when it could not be set up.
 */
-function runTestsAtBase(cwd, rev, script, timeoutMs) {
+function runTestsAtBase(cwd, rev, script, timeoutMs, runner) {
 	const dir = (0, node_fs.mkdtempSync)((0, node_path.join)((0, node_os.tmpdir)(), "aperture-agent-check-"));
 	try {
 		git([
@@ -153903,6 +154015,7 @@ function runTestsAtBase(cwd, rev, script, timeoutMs) {
 	}
 	try {
 		const modules = (0, node_path.join)(cwd, "node_modules");
+		if (runner) return runner(dir, script, timeoutMs, modules);
 		if ((0, node_fs.existsSync)(modules) && !(0, node_fs.existsSync)((0, node_path.join)(dir, "node_modules"))) (0, node_fs.symlinkSync)(modules, (0, node_path.join)(dir, "node_modules"), "dir");
 		return runTests(dir, script, timeoutMs);
 	} finally {
@@ -153997,7 +154110,7 @@ function testsFor(options, rev) {
 		state: "unsupported",
 		reason: "turned off (run-tests: false)."
 	};
-	const head = runTests(options.cwd, options.testScript, options.timeoutMs);
+	const head = options.testRunner ? options.testRunner(options.cwd, options.testScript, options.timeoutMs, (0, node_path.join)(options.cwd, "node_modules")) : runTests(options.cwd, options.testScript, options.timeoutMs);
 	if (!head.ran) return {
 		state: "unsupported",
 		reason: head.reason
@@ -154005,14 +154118,14 @@ function testsFor(options, rev) {
 	const done = {
 		state: "done",
 		script: options.testScript,
-		where: "on this runner"
+		where: options.testsWhere ?? "on this runner"
 	};
 	if (head.passed) return {
 		...done,
 		passed: true,
 		detail: ""
 	};
-	const base = runTestsAtBase(options.cwd, rev, options.testScript, options.timeoutMs);
+	const base = runTestsAtBase(options.cwd, rev, options.testScript, options.timeoutMs, options.testRunner);
 	const preexisting = base !== null && base.ran && !base.passed;
 	return {
 		...done,
