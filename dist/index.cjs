@@ -153891,7 +153891,7 @@ function summaryMarkdown(rows, meta) {
 		const shown = meta.notChecked.slice(0, 20).map((path) => `\`${path}\``).join(", ");
 		lines.push("", `Not checked: ${shown}${meta.notChecked.length > 20 ? `, and ${meta.notChecked.length - 20} more` : ""}.`);
 	}
-	lines.push("", "Same checks as the [Aperture](https://aperturesais.grok.me/agent-check) editor. Nothing left this runner.");
+	lines.push("", "Same checks as the [Aperture](https://aperturesais.grok.me/bot?tab=check) editor. Nothing left this runner.");
 	return `${lines.join("\n")}\n`;
 }
 //#endregion
