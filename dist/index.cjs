@@ -26,6 +26,7 @@ let node_fs = require("node:fs");
 let node_module = require("node:module");
 let node_path = require("node:path");
 let node_url = require("node:url");
+let node_crypto = require("node:crypto");
 let node_child_process = require("node:child_process");
 let node_os = require("node:os");
 /*! *****************************************************************************
@@ -153074,7 +153075,7 @@ function tamperedRow(row, tampering) {
 function hookRow(run) {
 	const id = `hook:${run.hook.id}`;
 	const label = run.hook.name;
-	const command = `npm run ${run.hook.script}`;
+	const command = run.command ? `npm run ${run.hook.script} (\`${run.command}\`)` : `npm run ${run.hook.script}`;
 	if (run.state === "running") return {
 		id,
 		label,
@@ -153403,14 +153404,6 @@ function parseErrorsOf(result) {
 function tscIssue(diagnostic) {
 	return `TS${diagnostic.code} at line ${diagnostic.line}: ${diagnostic.message}`;
 }
-//#endregion
-//#region src/lib/workspace/tsc-paths.ts
-/**
-* Which files a change's type check reads: the changed TypeScript files and
-* the files that depend on them. Shared by the editor (tsc.ts) and the benchmark.
-*/
-/** A change to a widely used file still checks only this many of the files that depend on it. */
-const MAX_IMPORTERS = 40;
 /**
 * The changed TypeScript files and what depends on them, nearest first: files
 * that import or re-export a changed file, then the files that import those,
@@ -153428,10 +153421,10 @@ function pathsToCheck(after, changed) {
 	}
 	const importers = [];
 	let frontier = new Set(targets);
-	while (frontier.size > 0 && importers.length < MAX_IMPORTERS) {
+	while (frontier.size > 0 && importers.length < 40) {
 		const next = /* @__PURE__ */ new Set();
 		for (const [path, hits] of imports) {
-			if (reached.has(path) || importers.length >= MAX_IMPORTERS) continue;
+			if (reached.has(path) || importers.length >= 40) continue;
 			if (hits.some((hit) => frontier.has(hit))) {
 				reached.add(path);
 				importers.push(path);
@@ -153561,6 +153554,53 @@ function staticChangeChecks(input) {
 		tsc: tscCheck,
 		parse: tsParseCheck(input.tsc)
 	}), importers, input.before, after);
+}
+//#endregion
+//#region packages/agent-check/src/baseline.ts
+/**
+* A stored baseline for one base commit, so a flaky or slow base run is not
+* repeated while that commit stays the base. Off unless asked: the default
+* still recomputes the base every time.
+*/
+function baselineFile(dir, rev, script) {
+	const name = (0, node_crypto.createHash)("sha256").update(`${rev}\0${script}`).digest("hex").slice(0, 24);
+	return (0, node_path.join)(dir, `${name}.json`);
+}
+function readBaseline(dir, rev, script) {
+	try {
+		const raw = JSON.parse((0, node_fs.readFileSync)(baselineFile(dir, rev, script), "utf8"));
+		if (raw.rev !== rev || raw.script !== script || !raw.run || typeof raw.run.ran !== "boolean") return null;
+		return raw.run;
+	} catch {
+		return null;
+	}
+}
+function writeBaseline(dir, rev, script, run) {
+	(0, node_fs.mkdirSync)(dir, { recursive: true });
+	(0, node_fs.writeFileSync)(baselineFile(dir, rev, script), JSON.stringify({
+		rev,
+		script,
+		run
+	}));
+}
+/**
+* The base run to compare against. `cache` reuses a result stored for this
+* base commit and script, and writes one when it had to run.
+*/
+function baseFromCacheOrRun(mode, dir, rev, script, run) {
+	if (mode === "cache") {
+		const hit = readBaseline(dir, rev, script);
+		if (hit) return {
+			run: hit,
+			cached: true
+		};
+	}
+	const fresh = run();
+	if (mode === "cache" && fresh) writeBaseline(dir, rev, script, fresh);
+	return {
+		run: fresh,
+		cached: false
+	};
 }
 //#endregion
 //#region packages/agent-check/src/git.ts
@@ -154096,13 +154136,18 @@ function parseOptions(argv, env) {
 	if (failOn !== "red" && failOn !== "never") throw new Error(`fail-on must be "red" or "never", not "${failOn}".`);
 	const minutes = Number(flag(argv, "timeout-minutes") ?? input(env, "timeout-minutes") ?? 10);
 	const testsInput = input(env, "run-tests");
+	const baseline = flag(argv, "baseline") ?? input(env, "baseline") ?? "recompute";
+	if (baseline !== "recompute" && baseline !== "cache") throw new Error(`baseline must be "recompute" or "cache", not "${baseline}".`);
+	const cwd = (0, node_path.resolve)(flag(argv, "cwd") ?? input(env, "working-directory") ?? env.GITHUB_WORKSPACE ?? process.cwd());
 	return {
-		cwd: (0, node_path.resolve)(flag(argv, "cwd") ?? input(env, "working-directory") ?? env.GITHUB_WORKSPACE ?? process.cwd()),
+		cwd,
 		base: flag(argv, "base") ?? input(env, "base") ?? baseFromEvent(env.GITHUB_EVENT_PATH) ?? "origin/main",
 		runTests: !argv.includes("--no-tests") && testsInput !== "false",
 		testScript: flag(argv, "test-script") ?? input(env, "test-script") ?? "test",
 		timeoutMs: (Number.isFinite(minutes) && minutes > 0 ? minutes : 10) * 6e4,
-		failOn
+		failOn,
+		baseline,
+		baselineDir: (0, node_path.resolve)(flag(argv, "baseline-dir") ?? input(env, "baseline-dir") ?? (0, node_path.join)(cwd, ".aperture", "check-baseline"))
 	};
 }
 function testsFor(options, rev) {
@@ -154125,12 +154170,13 @@ function testsFor(options, rev) {
 		passed: true,
 		detail: ""
 	};
-	const base = runTestsAtBase(options.cwd, rev, options.testScript, options.timeoutMs, options.testRunner);
-	const preexisting = base !== null && base.ran && !base.passed;
+	const base = baseFromCacheOrRun(options.baseline, options.baselineDir, rev, options.testScript, () => runTestsAtBase(options.cwd, rev, options.testScript, options.timeoutMs, options.testRunner));
+	const preexisting = base.run !== null && base.run.ran && !base.run.passed;
+	const note = base.cached ? " Compared with a cached baseline for this base." : "";
 	return {
 		...done,
 		passed: false,
-		detail: head.detail,
+		detail: `${head.detail}${note}`,
 		evidence: head.evidence,
 		preexisting
 	};
