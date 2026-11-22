@@ -1,27 +1,26 @@
 #!/usr/bin/env node
-//#region \0rolldown/runtime.js
+// \0rolldown/runtime.js
 var __create = Object.create;
-var __defProp = Object.defineProperty;
+var __defProp$1 = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __commonJSMin = (cb, mod) => () => (mod || (cb((mod = { exports: {} }).exports, mod), cb = null), mod.exports);
+var __commonJSMin = (cb, mod) => () => (mod || (cb((mod = { exports: {} }).exports, mod, mod.exports), cb = null), mod.exports);
 var __copyProps = (to, from, except, desc) => {
 	if (from && typeof from === "object" || typeof from === "function") for (var keys = __getOwnPropNames(from), i = 0, n = keys.length, key; i < n; i++) {
 		key = keys[i];
-		if (!__hasOwnProp.call(to, key) && key !== except) __defProp(to, key, {
+		if (!__hasOwnProp.call(to, key) && key !== except) __defProp$1(to, key, {
 			get: ((k) => from[k]).bind(null, key),
 			enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable
 		});
 	}
 	return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule || !__hasOwnProp.call(mod, "default") ? __defProp(target, "default", {
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule || !__hasOwnProp.call(mod, "default") ? __defProp$1(target, "default", {
 	value: mod,
 	enumerable: true
 }) : target, mod));
-//#endregion
 let node_fs = require("node:fs");
 let node_module = require("node:module");
 let node_path = require("node:path");
@@ -43,11 +42,10 @@ MERCHANTABLITY OR NON-INFRINGEMENT.
 See the Apache Version 2.0 License for specific language governing permissions
 and limitations under the License.
 ***************************************************************************** */
-//#endregion
-//#region src/lib/runner/tampering.ts
+// src/lib/runner/tampering.ts
 var import_typescript = /* @__PURE__ */ __toESM((/* @__PURE__ */ __commonJSMin(((exports, module) => {
 	var ts = {};
-	((module$1) => {
+	((module) => {
 		"use strict";
 		var __defProp = Object.defineProperty;
 		var __export = (target, all) => {
@@ -2304,7 +2302,7 @@ var import_typescript = /* @__PURE__ */ __toESM((/* @__PURE__ */ __commonJSMin((
 			writeFileEnsuringDirectories: () => writeFileEnsuringDirectories,
 			zipWith: () => zipWith
 		});
-		module$1.exports = __toCommonJS(typescript_exports);
+		module.exports = __toCommonJS(typescript_exports);
 		var versionMajorMinor = "5.9";
 		var version = "5.9.3";
 		var Comparison = /* @__PURE__ */ ((Comparison3) => {
@@ -147400,6 +147398,2252 @@ Additional information: BADCLIENT: Bad error code, ${badCode} not found in range
 				case 4: return console.log(s);
 			}
 		} };
+		0 && (module.exports = {
+			ANONYMOUS,
+			AccessFlags,
+			AssertionLevel,
+			AssignmentDeclarationKind,
+			AssignmentKind,
+			Associativity,
+			BreakpointResolver,
+			BuilderFileEmit,
+			BuilderProgramKind,
+			BuilderState,
+			CallHierarchy,
+			CharacterCodes,
+			CheckFlags,
+			CheckMode,
+			ClassificationType,
+			ClassificationTypeNames,
+			CommentDirectiveType,
+			Comparison,
+			CompletionInfoFlags,
+			CompletionTriggerKind,
+			Completions,
+			ContainerFlags,
+			ContextFlags,
+			Debug,
+			DiagnosticCategory,
+			Diagnostics,
+			DocumentHighlights,
+			ElementFlags,
+			EmitFlags,
+			EmitHint,
+			EmitOnly,
+			EndOfLineState,
+			ExitStatus,
+			ExportKind,
+			Extension,
+			ExternalEmitHelpers,
+			FileIncludeKind,
+			FilePreprocessingDiagnosticsKind,
+			FileSystemEntryKind,
+			FileWatcherEventKind,
+			FindAllReferences,
+			FlattenLevel,
+			FlowFlags,
+			ForegroundColorEscapeSequences,
+			FunctionFlags,
+			GeneratedIdentifierFlags,
+			GetLiteralTextFlags,
+			GoToDefinition,
+			HighlightSpanKind,
+			IdentifierNameMap,
+			ImportKind,
+			ImportsNotUsedAsValues,
+			IndentStyle,
+			IndexFlags,
+			IndexKind,
+			InferenceFlags,
+			InferencePriority,
+			InlayHintKind,
+			InlayHints,
+			InternalEmitFlags,
+			InternalNodeBuilderFlags,
+			InternalSymbolName,
+			IntersectionFlags,
+			InvalidatedProjectKind,
+			JSDocParsingMode,
+			JsDoc,
+			JsTyping,
+			JsxEmit,
+			JsxFlags,
+			JsxReferenceKind,
+			LanguageFeatureMinimumTarget,
+			LanguageServiceMode,
+			LanguageVariant,
+			LexicalEnvironmentFlags,
+			ListFormat,
+			LogLevel,
+			MapCode,
+			MemberOverrideStatus,
+			ModifierFlags,
+			ModuleDetectionKind,
+			ModuleInstanceState,
+			ModuleKind,
+			ModuleResolutionKind,
+			ModuleSpecifierEnding,
+			NavigateTo,
+			NavigationBar,
+			NewLineKind,
+			NodeBuilderFlags,
+			NodeCheckFlags,
+			NodeFactoryFlags,
+			NodeFlags,
+			NodeResolutionFeatures,
+			ObjectFlags,
+			OperationCanceledException,
+			OperatorPrecedence,
+			OrganizeImports,
+			OrganizeImportsMode,
+			OuterExpressionKinds,
+			OutliningElementsCollector,
+			OutliningSpanKind,
+			OutputFileType,
+			PackageJsonAutoImportPreference,
+			PackageJsonDependencyGroup,
+			PatternMatchKind,
+			PollingInterval,
+			PollingWatchKind,
+			PragmaKindFlags,
+			PredicateSemantics,
+			PreparePasteEdits,
+			PrivateIdentifierKind,
+			ProcessLevel,
+			ProgramUpdateLevel,
+			QuotePreference,
+			RegularExpressionFlags,
+			RelationComparisonResult,
+			Rename,
+			ScriptElementKind,
+			ScriptElementKindModifier,
+			ScriptKind,
+			ScriptSnapshot,
+			ScriptTarget,
+			SemanticClassificationFormat,
+			SemanticMeaning,
+			SemicolonPreference,
+			SignatureCheckMode,
+			SignatureFlags,
+			SignatureHelp,
+			SignatureInfo,
+			SignatureKind,
+			SmartSelectionRange,
+			SnippetKind,
+			StatisticType,
+			StructureIsReused,
+			SymbolAccessibility,
+			SymbolDisplay,
+			SymbolDisplayPartKind,
+			SymbolFlags,
+			SymbolFormatFlags,
+			SyntaxKind,
+			Ternary,
+			ThrottledCancellationToken,
+			TokenClass,
+			TokenFlags,
+			TransformFlags,
+			TypeFacts,
+			TypeFlags,
+			TypeFormatFlags,
+			TypeMapKind,
+			TypePredicateKind,
+			TypeReferenceSerializationKind,
+			UnionReduction,
+			UpToDateStatusType,
+			VarianceFlags,
+			Version,
+			VersionRange,
+			WatchDirectoryFlags,
+			WatchDirectoryKind,
+			WatchFileKind,
+			WatchLogLevel,
+			WatchType,
+			accessPrivateIdentifier,
+			addEmitFlags,
+			addEmitHelper,
+			addEmitHelpers,
+			addInternalEmitFlags,
+			addNodeFactoryPatcher,
+			addObjectAllocatorPatcher,
+			addRange,
+			addRelatedInfo,
+			addSyntheticLeadingComment,
+			addSyntheticTrailingComment,
+			addToSeen,
+			advancedAsyncSuperHelper,
+			affectsDeclarationPathOptionDeclarations,
+			affectsEmitOptionDeclarations,
+			allKeysStartWithDot,
+			altDirectorySeparator,
+			and,
+			append,
+			appendIfUnique,
+			arrayFrom,
+			arrayIsEqualTo,
+			arrayIsHomogeneous,
+			arrayOf,
+			arrayReverseIterator,
+			arrayToMap,
+			arrayToMultiMap,
+			arrayToNumericMap,
+			assertType,
+			assign,
+			asyncSuperHelper,
+			attachFileToDiagnostics,
+			base64decode,
+			base64encode,
+			binarySearch,
+			binarySearchKey,
+			bindSourceFile,
+			breakIntoCharacterSpans,
+			breakIntoWordSpans,
+			buildLinkParts,
+			buildOpts,
+			buildOverload,
+			bundlerModuleNameResolver,
+			canBeConvertedToAsync,
+			canHaveDecorators,
+			canHaveExportModifier,
+			canHaveFlowNode,
+			canHaveIllegalDecorators,
+			canHaveIllegalModifiers,
+			canHaveIllegalType,
+			canHaveIllegalTypeParameters,
+			canHaveJSDoc,
+			canHaveLocals,
+			canHaveModifiers,
+			canHaveModuleSpecifier,
+			canHaveSymbol,
+			canIncludeBindAndCheckDiagnostics,
+			canJsonReportNoInputFiles,
+			canProduceDiagnostics,
+			canUsePropertyAccess,
+			canWatchAffectingLocation,
+			canWatchAtTypes,
+			canWatchDirectoryOrFile,
+			canWatchDirectoryOrFilePath,
+			cartesianProduct,
+			cast,
+			chainBundle,
+			chainDiagnosticMessages,
+			changeAnyExtension,
+			changeCompilerHostLikeToUseCache,
+			changeExtension,
+			changeFullExtension,
+			changesAffectModuleResolution,
+			changesAffectingProgramStructure,
+			characterCodeToRegularExpressionFlag,
+			childIsDecorated,
+			classElementOrClassElementParameterIsDecorated,
+			classHasClassThisAssignment,
+			classHasDeclaredOrExplicitlyAssignedName,
+			classHasExplicitlyAssignedName,
+			classOrConstructorParameterIsDecorated,
+			classicNameResolver,
+			classifier,
+			cleanExtendedConfigCache,
+			clear,
+			clearMap,
+			clearSharedExtendedConfigFileWatcher,
+			climbPastPropertyAccess,
+			clone,
+			cloneCompilerOptions,
+			closeFileWatcher,
+			closeFileWatcherOf,
+			codefix,
+			collapseTextChangeRangesAcrossMultipleVersions,
+			collectExternalModuleInfo,
+			combine,
+			combinePaths,
+			commandLineOptionOfCustomType,
+			commentPragmas,
+			commonOptionsWithBuild,
+			compact,
+			compareBooleans,
+			compareDataObjects,
+			compareDiagnostics,
+			compareEmitHelpers,
+			compareNumberOfDirectorySeparators,
+			comparePaths,
+			comparePathsCaseInsensitive,
+			comparePathsCaseSensitive,
+			comparePatternKeys,
+			compareProperties,
+			compareStringsCaseInsensitive,
+			compareStringsCaseInsensitiveEslintCompatible,
+			compareStringsCaseSensitive,
+			compareStringsCaseSensitiveUI,
+			compareTextSpans,
+			compareValues,
+			compilerOptionsAffectDeclarationPath,
+			compilerOptionsAffectEmit,
+			compilerOptionsAffectSemanticDiagnostics,
+			compilerOptionsDidYouMeanDiagnostics,
+			compilerOptionsIndicateEsModules,
+			computeCommonSourceDirectoryOfFilenames,
+			computeLineAndCharacterOfPosition,
+			computeLineOfPosition,
+			computeLineStarts,
+			computePositionOfLineAndCharacter,
+			computeSignatureWithDiagnostics,
+			computeSuggestionDiagnostics,
+			computedOptions,
+			concatenate,
+			concatenateDiagnosticMessageChains,
+			consumesNodeCoreModules,
+			contains,
+			containsIgnoredPath,
+			containsObjectRestOrSpread,
+			containsParseError,
+			containsPath,
+			convertCompilerOptionsForTelemetry,
+			convertCompilerOptionsFromJson,
+			convertJsonOption,
+			convertToBase64,
+			convertToJson,
+			convertToObject,
+			convertToOptionsWithAbsolutePaths,
+			convertToRelativePath,
+			convertToTSConfig,
+			convertTypeAcquisitionFromJson,
+			copyComments,
+			copyEntries,
+			copyLeadingComments,
+			copyProperties,
+			copyTrailingAsLeadingComments,
+			copyTrailingComments,
+			couldStartTrivia,
+			countWhere,
+			createAbstractBuilder,
+			createAccessorPropertyBackingField,
+			createAccessorPropertyGetRedirector,
+			createAccessorPropertySetRedirector,
+			createBaseNodeFactory,
+			createBinaryExpressionTrampoline,
+			createBuilderProgram,
+			createBuilderProgramUsingIncrementalBuildInfo,
+			createBuilderStatusReporter,
+			createCacheableExportInfoMap,
+			createCachedDirectoryStructureHost,
+			createClassifier,
+			createCommentDirectivesMap,
+			createCompilerDiagnostic,
+			createCompilerDiagnosticForInvalidCustomType,
+			createCompilerDiagnosticFromMessageChain,
+			createCompilerHost,
+			createCompilerHostFromProgramHost,
+			createCompilerHostWorker,
+			createDetachedDiagnostic,
+			createDiagnosticCollection,
+			createDiagnosticForFileFromMessageChain,
+			createDiagnosticForNode,
+			createDiagnosticForNodeArray,
+			createDiagnosticForNodeArrayFromMessageChain,
+			createDiagnosticForNodeFromMessageChain,
+			createDiagnosticForNodeInSourceFile,
+			createDiagnosticForRange,
+			createDiagnosticMessageChainFromDiagnostic,
+			createDiagnosticReporter,
+			createDocumentPositionMapper,
+			createDocumentRegistry,
+			createDocumentRegistryInternal,
+			createEmitAndSemanticDiagnosticsBuilderProgram,
+			createEmitHelperFactory,
+			createEmptyExports,
+			createEvaluator,
+			createExpressionForJsxElement,
+			createExpressionForJsxFragment,
+			createExpressionForObjectLiteralElementLike,
+			createExpressionForPropertyName,
+			createExpressionFromEntityName,
+			createExternalHelpersImportDeclarationIfNeeded,
+			createFileDiagnostic,
+			createFileDiagnosticFromMessageChain,
+			createFlowNode,
+			createForOfBindingStatement,
+			createFutureSourceFile,
+			createGetCanonicalFileName,
+			createGetIsolatedDeclarationErrors,
+			createGetSourceFile,
+			createGetSymbolAccessibilityDiagnosticForNode,
+			createGetSymbolAccessibilityDiagnosticForNodeName,
+			createGetSymbolWalker,
+			createIncrementalCompilerHost,
+			createIncrementalProgram,
+			createJsxFactoryExpression,
+			createLanguageService,
+			createLanguageServiceSourceFile,
+			createMemberAccessForPropertyName,
+			createModeAwareCache,
+			createModeAwareCacheKey,
+			createModeMismatchDetails,
+			createModuleNotFoundChain,
+			createModuleResolutionCache,
+			createModuleResolutionLoader,
+			createModuleResolutionLoaderUsingGlobalCache,
+			createModuleSpecifierResolutionHost,
+			createMultiMap,
+			createNameResolver,
+			createNodeConverters,
+			createNodeFactory,
+			createOptionNameMap,
+			createOverload,
+			createPackageJsonImportFilter,
+			createPackageJsonInfo,
+			createParenthesizerRules,
+			createPatternMatcher,
+			createPrinter,
+			createPrinterWithDefaults,
+			createPrinterWithRemoveComments,
+			createPrinterWithRemoveCommentsNeverAsciiEscape,
+			createPrinterWithRemoveCommentsOmitTrailingSemicolon,
+			createProgram,
+			createProgramDiagnostics,
+			createProgramHost,
+			createPropertyNameNodeForIdentifierOrLiteral,
+			createQueue,
+			createRange,
+			createRedirectedBuilderProgram,
+			createResolutionCache,
+			createRuntimeTypeSerializer,
+			createScanner,
+			createSemanticDiagnosticsBuilderProgram,
+			createSet,
+			createSolutionBuilder,
+			createSolutionBuilderHost,
+			createSolutionBuilderWithWatch,
+			createSolutionBuilderWithWatchHost,
+			createSortedArray,
+			createSourceFile,
+			createSourceMapGenerator,
+			createSourceMapSource,
+			createSuperAccessVariableStatement,
+			createSymbolTable,
+			createSymlinkCache,
+			createSyntacticTypeNodeBuilder,
+			createSystemWatchFunctions,
+			createTextChange,
+			createTextChangeFromStartLength,
+			createTextChangeRange,
+			createTextRangeFromNode,
+			createTextRangeFromSpan,
+			createTextSpan,
+			createTextSpanFromBounds,
+			createTextSpanFromNode,
+			createTextSpanFromRange,
+			createTextSpanFromStringLiteralLikeContent,
+			createTextWriter,
+			createTokenRange,
+			createTypeChecker,
+			createTypeReferenceDirectiveResolutionCache,
+			createTypeReferenceResolutionLoader,
+			createWatchCompilerHost,
+			createWatchCompilerHostOfConfigFile,
+			createWatchCompilerHostOfFilesAndCompilerOptions,
+			createWatchFactory,
+			createWatchHost,
+			createWatchProgram,
+			createWatchStatusReporter,
+			createWriteFileMeasuringIO,
+			declarationNameToString,
+			decodeMappings,
+			decodedTextSpanIntersectsWith,
+			deduplicate,
+			defaultHoverMaximumTruncationLength,
+			defaultInitCompilerOptions,
+			defaultMaximumTruncationLength,
+			diagnosticCategoryName,
+			diagnosticToString,
+			diagnosticsEqualityComparer,
+			directoryProbablyExists,
+			directorySeparator,
+			displayPart,
+			displayPartsToString,
+			disposeEmitNodes,
+			documentSpansEqual,
+			dumpTracingLegend,
+			elementAt,
+			elideNodes,
+			emitDetachedComments,
+			emitFiles,
+			emitFilesAndReportErrors,
+			emitFilesAndReportErrorsAndGetExitStatus,
+			emitModuleKindIsNonNodeESM,
+			emitNewLineBeforeLeadingCommentOfPosition,
+			emitResolverSkipsTypeChecking,
+			emitSkippedWithNoDiagnostics,
+			emptyArray,
+			emptyFileSystemEntries,
+			emptyMap,
+			emptyOptions,
+			endsWith,
+			ensurePathIsNonModuleName,
+			ensureScriptKind,
+			ensureTrailingDirectorySeparator,
+			entityNameToString,
+			enumerateInsertsAndDeletes,
+			equalOwnProperties,
+			equateStringsCaseInsensitive,
+			equateStringsCaseSensitive,
+			equateValues,
+			escapeJsxAttributeString,
+			escapeLeadingUnderscores,
+			escapeNonAsciiString,
+			escapeSnippetText,
+			escapeString,
+			escapeTemplateSubstitution,
+			evaluatorResult,
+			every,
+			exclusivelyPrefixedNodeCoreModules,
+			executeCommandLine,
+			expandPreOrPostfixIncrementOrDecrementExpression,
+			explainFiles,
+			explainIfFileIsRedirectAndImpliedFormat,
+			exportAssignmentIsAlias,
+			expressionResultIsUnused,
+			extend,
+			extensionFromPath,
+			extensionIsTS,
+			extensionsNotSupportingExtensionlessResolution,
+			externalHelpersModuleNameText,
+			factory,
+			fileExtensionIs,
+			fileExtensionIsOneOf,
+			fileIncludeReasonToDiagnostics,
+			fileShouldUseJavaScriptRequire,
+			filter,
+			filterMutate,
+			filterSemanticDiagnostics,
+			find,
+			findAncestor,
+			findBestPatternMatch,
+			findChildOfKind,
+			findComputedPropertyNameCacheAssignment,
+			findConfigFile,
+			findConstructorDeclaration,
+			findContainingList,
+			findDiagnosticForNode,
+			findFirstNonJsxWhitespaceToken,
+			findIndex,
+			findLast,
+			findLastIndex,
+			findListItemInfo,
+			findModifier,
+			findNextToken,
+			findPackageJson,
+			findPackageJsons,
+			findPrecedingMatchingToken,
+			findPrecedingToken,
+			findSuperStatementIndexPath,
+			findTokenOnLeftOfPosition,
+			findUseStrictPrologue,
+			first,
+			firstDefined,
+			firstDefinedIterator,
+			firstIterator,
+			firstOrOnly,
+			firstOrUndefined,
+			firstOrUndefinedIterator,
+			fixupCompilerOptions,
+			flatMap,
+			flatMapIterator,
+			flatMapToMutable,
+			flatten,
+			flattenCommaList,
+			flattenDestructuringAssignment,
+			flattenDestructuringBinding,
+			flattenDiagnosticMessageText,
+			forEach,
+			forEachAncestor,
+			forEachAncestorDirectory,
+			forEachAncestorDirectoryStoppingAtGlobalCache,
+			forEachChild,
+			forEachChildRecursively,
+			forEachDynamicImportOrRequireCall,
+			forEachEmittedFile,
+			forEachEnclosingBlockScopeContainer,
+			forEachEntry,
+			forEachExternalModuleToImportFrom,
+			forEachImportClauseDeclaration,
+			forEachKey,
+			forEachLeadingCommentRange,
+			forEachNameInAccessChainWalkingLeft,
+			forEachNameOfDefaultExport,
+			forEachOptionsSyntaxByName,
+			forEachProjectReference,
+			forEachPropertyAssignment,
+			forEachResolvedProjectReference,
+			forEachReturnStatement,
+			forEachRight,
+			forEachTrailingCommentRange,
+			forEachTsConfigPropArray,
+			forEachUnique,
+			forEachYieldExpression,
+			formatColorAndReset,
+			formatDiagnostic,
+			formatDiagnostics,
+			formatDiagnosticsWithColorAndContext,
+			formatGeneratedName,
+			formatGeneratedNamePart,
+			formatLocation,
+			formatMessage,
+			formatStringFromArgs,
+			formatting,
+			generateDjb2Hash,
+			generateTSConfig,
+			getAdjustedReferenceLocation,
+			getAdjustedRenameLocation,
+			getAliasDeclarationFromName,
+			getAllAccessorDeclarations,
+			getAllDecoratorsOfClass,
+			getAllDecoratorsOfClassElement,
+			getAllJSDocTags,
+			getAllJSDocTagsOfKind,
+			getAllKeys,
+			getAllProjectOutputs,
+			getAllSuperTypeNodes,
+			getAllowImportingTsExtensions,
+			getAllowJSCompilerOption,
+			getAllowSyntheticDefaultImports,
+			getAncestor,
+			getAnyExtensionFromPath,
+			getAreDeclarationMapsEnabled,
+			getAssignedExpandoInitializer,
+			getAssignedName,
+			getAssignmentDeclarationKind,
+			getAssignmentDeclarationPropertyAccessKind,
+			getAssignmentTargetKind,
+			getAutomaticTypeDirectiveNames,
+			getBaseFileName,
+			getBinaryOperatorPrecedence,
+			getBuildInfo,
+			getBuildInfoFileVersionMap,
+			getBuildInfoText,
+			getBuildOrderFromAnyBuildOrder,
+			getBuilderCreationParameters,
+			getBuilderFileEmit,
+			getCanonicalDiagnostic,
+			getCheckFlags,
+			getClassExtendsHeritageElement,
+			getClassLikeDeclarationOfSymbol,
+			getCombinedLocalAndExportSymbolFlags,
+			getCombinedModifierFlags,
+			getCombinedNodeFlags,
+			getCombinedNodeFlagsAlwaysIncludeJSDoc,
+			getCommentRange,
+			getCommonSourceDirectory,
+			getCommonSourceDirectoryOfConfig,
+			getCompilerOptionValue,
+			getConditions,
+			getConfigFileParsingDiagnostics,
+			getConstantValue,
+			getContainerFlags,
+			getContainerNode,
+			getContainingClass,
+			getContainingClassExcludingClassDecorators,
+			getContainingClassStaticBlock,
+			getContainingFunction,
+			getContainingFunctionDeclaration,
+			getContainingFunctionOrClassStaticBlock,
+			getContainingNodeArray,
+			getContainingObjectLiteralElement,
+			getContextualTypeFromParent,
+			getContextualTypeFromParentOrAncestorTypeNode,
+			getDeclarationDiagnostics,
+			getDeclarationEmitExtensionForPath,
+			getDeclarationEmitOutputFilePath,
+			getDeclarationEmitOutputFilePathWorker,
+			getDeclarationFileExtension,
+			getDeclarationFromName,
+			getDeclarationModifierFlagsFromSymbol,
+			getDeclarationOfKind,
+			getDeclarationsOfKind,
+			getDeclaredExpandoInitializer,
+			getDecorators,
+			getDefaultCompilerOptions,
+			getDefaultFormatCodeSettings,
+			getDefaultLibFileName,
+			getDefaultLibFilePath,
+			getDefaultLikeExportInfo,
+			getDefaultLikeExportNameFromDeclaration,
+			getDefaultResolutionModeForFileWorker,
+			getDiagnosticText,
+			getDiagnosticsWithinSpan,
+			getDirectoryPath,
+			getDirectoryToWatchFailedLookupLocation,
+			getDirectoryToWatchFailedLookupLocationFromTypeRoot,
+			getDocumentPositionMapper,
+			getDocumentSpansEqualityComparer,
+			getESModuleInterop,
+			getEditsForFileRename,
+			getEffectiveBaseTypeNode,
+			getEffectiveConstraintOfTypeParameter,
+			getEffectiveContainerForJSDocTemplateTag,
+			getEffectiveImplementsTypeNodes,
+			getEffectiveInitializer,
+			getEffectiveJSDocHost,
+			getEffectiveModifierFlags,
+			getEffectiveModifierFlagsAlwaysIncludeJSDoc,
+			getEffectiveModifierFlagsNoCache,
+			getEffectiveReturnTypeNode,
+			getEffectiveSetAccessorTypeAnnotationNode,
+			getEffectiveTypeAnnotationNode,
+			getEffectiveTypeParameterDeclarations,
+			getEffectiveTypeRoots,
+			getElementOrPropertyAccessArgumentExpressionOrName,
+			getElementOrPropertyAccessName,
+			getElementsOfBindingOrAssignmentPattern,
+			getEmitDeclarations,
+			getEmitFlags,
+			getEmitHelpers,
+			getEmitModuleDetectionKind,
+			getEmitModuleFormatOfFileWorker,
+			getEmitModuleKind,
+			getEmitModuleResolutionKind,
+			getEmitScriptTarget,
+			getEmitStandardClassFields,
+			getEnclosingBlockScopeContainer,
+			getEnclosingContainer,
+			getEncodedSemanticClassifications,
+			getEncodedSyntacticClassifications,
+			getEndLinePosition,
+			getEntityNameFromTypeNode,
+			getEntrypointsFromPackageJsonInfo,
+			getErrorCountForSummary,
+			getErrorSpanForNode,
+			getErrorSummaryText,
+			getEscapedTextOfIdentifierOrLiteral,
+			getEscapedTextOfJsxAttributeName,
+			getEscapedTextOfJsxNamespacedName,
+			getExpandoInitializer,
+			getExportAssignmentExpression,
+			getExportInfoMap,
+			getExportNeedsImportStarHelper,
+			getExpressionAssociativity,
+			getExpressionPrecedence,
+			getExternalHelpersModuleName,
+			getExternalModuleImportEqualsDeclarationExpression,
+			getExternalModuleName,
+			getExternalModuleNameFromDeclaration,
+			getExternalModuleNameFromPath,
+			getExternalModuleNameLiteral,
+			getExternalModuleRequireArgument,
+			getFallbackOptions,
+			getFileEmitOutput,
+			getFileMatcherPatterns,
+			getFileNamesFromConfigSpecs,
+			getFileWatcherEventKind,
+			getFilesInErrorForSummary,
+			getFirstConstructorWithBody,
+			getFirstIdentifier,
+			getFirstNonSpaceCharacterPosition,
+			getFirstProjectOutput,
+			getFixableErrorSpanExpression,
+			getFormatCodeSettingsForWriting,
+			getFullWidth,
+			getFunctionFlags,
+			getHeritageClause,
+			getHostSignatureFromJSDoc,
+			getIdentifierAutoGenerate,
+			getIdentifierGeneratedImportReference,
+			getIdentifierTypeArguments,
+			getImmediatelyInvokedFunctionExpression,
+			getImpliedNodeFormatForEmitWorker,
+			getImpliedNodeFormatForFile,
+			getImpliedNodeFormatForFileWorker,
+			getImportNeedsImportDefaultHelper,
+			getImportNeedsImportStarHelper,
+			getIndentString,
+			getInferredLibraryNameResolveFrom,
+			getInitializedVariables,
+			getInitializerOfBinaryExpression,
+			getInitializerOfBindingOrAssignmentElement,
+			getInterfaceBaseTypeNodes,
+			getInternalEmitFlags,
+			getInvokedExpression,
+			getIsFileExcluded,
+			getIsolatedModules,
+			getJSDocAugmentsTag,
+			getJSDocClassTag,
+			getJSDocCommentRanges,
+			getJSDocCommentsAndTags,
+			getJSDocDeprecatedTag,
+			getJSDocDeprecatedTagNoCache,
+			getJSDocEnumTag,
+			getJSDocHost,
+			getJSDocImplementsTags,
+			getJSDocOverloadTags,
+			getJSDocOverrideTagNoCache,
+			getJSDocParameterTags,
+			getJSDocParameterTagsNoCache,
+			getJSDocPrivateTag,
+			getJSDocPrivateTagNoCache,
+			getJSDocProtectedTag,
+			getJSDocProtectedTagNoCache,
+			getJSDocPublicTag,
+			getJSDocPublicTagNoCache,
+			getJSDocReadonlyTag,
+			getJSDocReadonlyTagNoCache,
+			getJSDocReturnTag,
+			getJSDocReturnType,
+			getJSDocRoot,
+			getJSDocSatisfiesExpressionType,
+			getJSDocSatisfiesTag,
+			getJSDocTags,
+			getJSDocTemplateTag,
+			getJSDocThisTag,
+			getJSDocType,
+			getJSDocTypeAliasName,
+			getJSDocTypeAssertionType,
+			getJSDocTypeParameterDeclarations,
+			getJSDocTypeParameterTags,
+			getJSDocTypeParameterTagsNoCache,
+			getJSDocTypeTag,
+			getJSXImplicitImportBase,
+			getJSXRuntimeImport,
+			getJSXTransformEnabled,
+			getKeyForCompilerOptions,
+			getLanguageVariant,
+			getLastChild,
+			getLeadingCommentRanges,
+			getLeadingCommentRangesOfNode,
+			getLeftmostAccessExpression,
+			getLeftmostExpression,
+			getLibFileNameFromLibReference,
+			getLibNameFromLibReference,
+			getLibraryNameFromLibFileName,
+			getLineAndCharacterOfPosition,
+			getLineInfo,
+			getLineOfLocalPosition,
+			getLineStartPositionForPosition,
+			getLineStarts,
+			getLinesBetweenPositionAndNextNonWhitespaceCharacter,
+			getLinesBetweenPositionAndPrecedingNonWhitespaceCharacter,
+			getLinesBetweenPositions,
+			getLinesBetweenRangeEndAndRangeStart,
+			getLinesBetweenRangeEndPositions,
+			getLiteralText,
+			getLocalNameForExternalImport,
+			getLocalSymbolForExportDefault,
+			getLocaleSpecificMessage,
+			getLocaleTimeString,
+			getMappedContextSpan,
+			getMappedDocumentSpan,
+			getMappedLocation,
+			getMatchedFileSpec,
+			getMatchedIncludeSpec,
+			getMeaningFromDeclaration,
+			getMeaningFromLocation,
+			getMembersOfDeclaration,
+			getModeForFileReference,
+			getModeForResolutionAtIndex,
+			getModeForUsageLocation,
+			getModifiedTime,
+			getModifiers,
+			getModuleInstanceState,
+			getModuleNameStringLiteralAt,
+			getModuleSpecifierEndingPreference,
+			getModuleSpecifierResolverHost,
+			getNameForExportedSymbol,
+			getNameFromImportAttribute,
+			getNameFromIndexInfo,
+			getNameFromPropertyName,
+			getNameOfAccessExpression,
+			getNameOfCompilerOptionValue,
+			getNameOfDeclaration,
+			getNameOfExpando,
+			getNameOfJSDocTypedef,
+			getNameOfScriptTarget,
+			getNameOrArgument,
+			getNameTable,
+			getNamespaceDeclarationNode,
+			getNewLineCharacter,
+			getNewLineKind,
+			getNewLineOrDefaultFromHost,
+			getNewTargetContainer,
+			getNextJSDocCommentLocation,
+			getNodeChildren,
+			getNodeForGeneratedName,
+			getNodeId,
+			getNodeKind,
+			getNodeModifiers,
+			getNodeModulePathParts,
+			getNonAssignedNameOfDeclaration,
+			getNonAssignmentOperatorForCompoundAssignment,
+			getNonAugmentationDeclaration,
+			getNonDecoratorTokenPosOfNode,
+			getNonIncrementalBuildInfoRoots,
+			getNonModifierTokenPosOfNode,
+			getNormalizedAbsolutePath,
+			getNormalizedAbsolutePathWithoutRoot,
+			getNormalizedPathComponents,
+			getObjectFlags,
+			getOperatorAssociativity,
+			getOperatorPrecedence,
+			getOptionFromName,
+			getOptionsForLibraryResolution,
+			getOptionsNameMap,
+			getOptionsSyntaxByArrayElementValue,
+			getOptionsSyntaxByValue,
+			getOrCreateEmitNode,
+			getOrUpdate,
+			getOriginalNode,
+			getOriginalNodeId,
+			getOutputDeclarationFileName,
+			getOutputDeclarationFileNameWorker,
+			getOutputExtension,
+			getOutputFileNames,
+			getOutputJSFileNameWorker,
+			getOutputPathsFor,
+			getOwnEmitOutputFilePath,
+			getOwnKeys,
+			getOwnValues,
+			getPackageJsonTypesVersionsPaths,
+			getPackageNameFromTypesPackageName,
+			getPackageScopeForPath,
+			getParameterSymbolFromJSDoc,
+			getParentNodeInSpan,
+			getParseTreeNode,
+			getParsedCommandLineOfConfigFile,
+			getPathComponents,
+			getPathFromPathComponents,
+			getPathUpdater,
+			getPathsBasePath,
+			getPatternFromSpec,
+			getPendingEmitKindWithSeen,
+			getPositionOfLineAndCharacter,
+			getPossibleGenericSignatures,
+			getPossibleOriginalInputExtensionForExtension,
+			getPossibleOriginalInputPathWithoutChangingExt,
+			getPossibleTypeArgumentsInfo,
+			getPreEmitDiagnostics,
+			getPrecedingNonSpaceCharacterPosition,
+			getPrivateIdentifier,
+			getProperties,
+			getProperty,
+			getPropertyAssignmentAliasLikeExpression,
+			getPropertyNameForPropertyNameNode,
+			getPropertyNameFromType,
+			getPropertyNameOfBindingOrAssignmentElement,
+			getPropertySymbolFromBindingElement,
+			getPropertySymbolsFromContextualType,
+			getQuoteFromPreference,
+			getQuotePreference,
+			getRangesWhere,
+			getRefactorContextSpan,
+			getReferencedFileLocation,
+			getRegexFromPattern,
+			getRegularExpressionForWildcard,
+			getRegularExpressionsForWildcards,
+			getRelativePathFromDirectory,
+			getRelativePathFromFile,
+			getRelativePathToDirectoryOrUrl,
+			getRenameLocation,
+			getReplacementSpanForContextToken,
+			getResolutionDiagnostic,
+			getResolutionModeOverride,
+			getResolveJsonModule,
+			getResolvePackageJsonExports,
+			getResolvePackageJsonImports,
+			getResolvedExternalModuleName,
+			getResolvedModuleFromResolution,
+			getResolvedTypeReferenceDirectiveFromResolution,
+			getRestIndicatorOfBindingOrAssignmentElement,
+			getRestParameterElementType,
+			getRightMostAssignedExpression,
+			getRootDeclaration,
+			getRootDirectoryOfResolutionCache,
+			getRootLength,
+			getScriptKind,
+			getScriptKindFromFileName,
+			getScriptTargetFeatures,
+			getSelectedEffectiveModifierFlags,
+			getSelectedSyntacticModifierFlags,
+			getSemanticClassifications,
+			getSemanticJsxChildren,
+			getSetAccessorTypeAnnotationNode,
+			getSetAccessorValueParameter,
+			getSetExternalModuleIndicator,
+			getShebang,
+			getSingleVariableOfVariableStatement,
+			getSnapshotText,
+			getSnippetElement,
+			getSourceFileOfModule,
+			getSourceFileOfNode,
+			getSourceFilePathInNewDir,
+			getSourceFileVersionAsHashFromText,
+			getSourceFilesToEmit,
+			getSourceMapRange,
+			getSourceMapper,
+			getSourceTextOfNodeFromSourceFile,
+			getSpanOfTokenAtPosition,
+			getSpellingSuggestion,
+			getStartPositionOfLine,
+			getStartPositionOfRange,
+			getStartsOnNewLine,
+			getStaticPropertiesAndClassStaticBlock,
+			getStrictOptionValue,
+			getStringComparer,
+			getSubPatternFromSpec,
+			getSuperCallFromStatement,
+			getSuperContainer,
+			getSupportedCodeFixes,
+			getSupportedExtensions,
+			getSupportedExtensionsWithJsonIfResolveJsonModule,
+			getSwitchedType,
+			getSymbolId,
+			getSymbolNameForPrivateIdentifier,
+			getSymbolTarget,
+			getSyntacticClassifications,
+			getSyntacticModifierFlags,
+			getSyntacticModifierFlagsNoCache,
+			getSynthesizedDeepClone,
+			getSynthesizedDeepCloneWithReplacements,
+			getSynthesizedDeepClones,
+			getSynthesizedDeepClonesWithReplacements,
+			getSyntheticLeadingComments,
+			getSyntheticTrailingComments,
+			getTargetLabel,
+			getTargetOfBindingOrAssignmentElement,
+			getTemporaryModuleResolutionState,
+			getTextOfConstantValue,
+			getTextOfIdentifierOrLiteral,
+			getTextOfJSDocComment,
+			getTextOfJsxAttributeName,
+			getTextOfJsxNamespacedName,
+			getTextOfNode,
+			getTextOfNodeFromSourceText,
+			getTextOfPropertyName,
+			getThisContainer,
+			getThisParameter,
+			getTokenAtPosition,
+			getTokenPosOfNode,
+			getTokenSourceMapRange,
+			getTouchingPropertyName,
+			getTouchingToken,
+			getTrailingCommentRanges,
+			getTrailingSemicolonDeferringWriter,
+			getTransformers,
+			getTsBuildInfoEmitOutputFilePath,
+			getTsConfigObjectLiteralExpression,
+			getTsConfigPropArrayElementValue,
+			getTypeAnnotationNode,
+			getTypeArgumentOrTypeParameterList,
+			getTypeKeywordOfTypeOnlyImport,
+			getTypeNode,
+			getTypeNodeIfAccessible,
+			getTypeParameterFromJsDoc,
+			getTypeParameterOwner,
+			getTypesPackageName,
+			getUILocale,
+			getUniqueName,
+			getUniqueSymbolId,
+			getUseDefineForClassFields,
+			getWatchErrorSummaryDiagnosticMessage,
+			getWatchFactory,
+			group,
+			groupBy,
+			guessIndentation,
+			handleNoEmitOptions,
+			handleWatchOptionsConfigDirTemplateSubstitution,
+			hasAbstractModifier,
+			hasAccessorModifier,
+			hasAmbientModifier,
+			hasChangesInResolutions,
+			hasContextSensitiveParameters,
+			hasDecorators,
+			hasDocComment,
+			hasDynamicName,
+			hasEffectiveModifier,
+			hasEffectiveModifiers,
+			hasEffectiveReadonlyModifier,
+			hasExtension,
+			hasImplementationTSFileExtension,
+			hasIndexSignature,
+			hasInferredType,
+			hasInitializer,
+			hasInvalidEscape,
+			hasJSDocNodes,
+			hasJSDocParameterTags,
+			hasJSFileExtension,
+			hasJsonModuleEmitEnabled,
+			hasOnlyExpressionInitializer,
+			hasOverrideModifier,
+			hasPossibleExternalModuleReference,
+			hasProperty,
+			hasPropertyAccessExpressionWithName,
+			hasQuestionToken,
+			hasRecordedExternalHelpers,
+			hasResolutionModeOverride,
+			hasRestParameter,
+			hasScopeMarker,
+			hasStaticModifier,
+			hasSyntacticModifier,
+			hasSyntacticModifiers,
+			hasTSFileExtension,
+			hasTabstop,
+			hasTrailingDirectorySeparator,
+			hasType,
+			hasTypeArguments,
+			hasZeroOrOneAsteriskCharacter,
+			hostGetCanonicalFileName,
+			hostUsesCaseSensitiveFileNames,
+			idText,
+			identifierIsThisKeyword,
+			identifierToKeywordKind,
+			identity,
+			identitySourceMapConsumer,
+			ignoreSourceNewlines,
+			ignoredPaths,
+			importFromModuleSpecifier,
+			importSyntaxAffectsModuleResolution,
+			indexOfAnyCharCode,
+			indexOfNode,
+			indicesOf,
+			inferredTypesContainingFile,
+			injectClassNamedEvaluationHelperBlockIfMissing,
+			injectClassThisAssignmentIfMissing,
+			insertImports,
+			insertSorted,
+			insertStatementAfterCustomPrologue,
+			insertStatementAfterStandardPrologue,
+			insertStatementsAfterCustomPrologue,
+			insertStatementsAfterStandardPrologue,
+			intersperse,
+			intrinsicTagNameToString,
+			introducesArgumentsExoticObject,
+			inverseJsxOptionMap,
+			isAbstractConstructorSymbol,
+			isAbstractModifier,
+			isAccessExpression,
+			isAccessibilityModifier,
+			isAccessor,
+			isAccessorModifier,
+			isAliasableExpression,
+			isAmbientModule,
+			isAmbientPropertyDeclaration,
+			isAnyDirectorySeparator,
+			isAnyImportOrBareOrAccessedRequire,
+			isAnyImportOrReExport,
+			isAnyImportOrRequireStatement,
+			isAnyImportSyntax,
+			isAnySupportedFileExtension,
+			isApplicableVersionedTypesKey,
+			isArgumentExpressionOfElementAccess,
+			isArray,
+			isArrayBindingElement,
+			isArrayBindingOrAssignmentElement,
+			isArrayBindingOrAssignmentPattern,
+			isArrayBindingPattern,
+			isArrayLiteralExpression,
+			isArrayLiteralOrObjectLiteralDestructuringPattern,
+			isArrayTypeNode,
+			isArrowFunction,
+			isAsExpression,
+			isAssertClause,
+			isAssertEntry,
+			isAssertionExpression,
+			isAssertsKeyword,
+			isAssignmentDeclaration,
+			isAssignmentExpression,
+			isAssignmentOperator,
+			isAssignmentPattern,
+			isAssignmentTarget,
+			isAsteriskToken,
+			isAsyncFunction,
+			isAsyncModifier,
+			isAutoAccessorPropertyDeclaration,
+			isAwaitExpression,
+			isAwaitKeyword,
+			isBigIntLiteral,
+			isBinaryExpression,
+			isBinaryLogicalOperator,
+			isBinaryOperatorToken,
+			isBindableObjectDefinePropertyCall,
+			isBindableStaticAccessExpression,
+			isBindableStaticElementAccessExpression,
+			isBindableStaticNameExpression,
+			isBindingElement,
+			isBindingElementOfBareOrAccessedRequire,
+			isBindingName,
+			isBindingOrAssignmentElement,
+			isBindingOrAssignmentPattern,
+			isBindingPattern,
+			isBlock,
+			isBlockLike,
+			isBlockOrCatchScoped,
+			isBlockScope,
+			isBlockScopedContainerTopLevel,
+			isBooleanLiteral,
+			isBreakOrContinueStatement,
+			isBreakStatement,
+			isBuildCommand,
+			isBuildInfoFile,
+			isBuilderProgram,
+			isBundle,
+			isCallChain,
+			isCallExpression,
+			isCallExpressionTarget,
+			isCallLikeExpression,
+			isCallLikeOrFunctionLikeExpression,
+			isCallOrNewExpression,
+			isCallOrNewExpressionTarget,
+			isCallSignatureDeclaration,
+			isCallToHelper,
+			isCaseBlock,
+			isCaseClause,
+			isCaseKeyword,
+			isCaseOrDefaultClause,
+			isCatchClause,
+			isCatchClauseVariableDeclaration,
+			isCatchClauseVariableDeclarationOrBindingElement,
+			isCheckJsEnabledForFile,
+			isCircularBuildOrder,
+			isClassDeclaration,
+			isClassElement,
+			isClassExpression,
+			isClassInstanceProperty,
+			isClassLike,
+			isClassMemberModifier,
+			isClassNamedEvaluationHelperBlock,
+			isClassOrTypeElement,
+			isClassStaticBlockDeclaration,
+			isClassThisAssignmentBlock,
+			isColonToken,
+			isCommaExpression,
+			isCommaListExpression,
+			isCommaSequence,
+			isCommaToken,
+			isComment,
+			isCommonJsExportPropertyAssignment,
+			isCommonJsExportedExpression,
+			isCompoundAssignment,
+			isComputedNonLiteralName,
+			isComputedPropertyName,
+			isConciseBody,
+			isConditionalExpression,
+			isConditionalTypeNode,
+			isConstAssertion,
+			isConstTypeReference,
+			isConstructSignatureDeclaration,
+			isConstructorDeclaration,
+			isConstructorTypeNode,
+			isContextualKeyword,
+			isContinueStatement,
+			isCustomPrologue,
+			isDebuggerStatement,
+			isDeclaration,
+			isDeclarationBindingElement,
+			isDeclarationFileName,
+			isDeclarationName,
+			isDeclarationNameOfEnumOrNamespace,
+			isDeclarationReadonly,
+			isDeclarationStatement,
+			isDeclarationWithTypeParameterChildren,
+			isDeclarationWithTypeParameters,
+			isDecorator,
+			isDecoratorTarget,
+			isDefaultClause,
+			isDefaultImport,
+			isDefaultModifier,
+			isDefaultedExpandoInitializer,
+			isDeleteExpression,
+			isDeleteTarget,
+			isDeprecatedDeclaration,
+			isDestructuringAssignment,
+			isDiskPathRoot,
+			isDoStatement,
+			isDocumentRegistryEntry,
+			isDotDotDotToken,
+			isDottedName,
+			isDynamicName,
+			isEffectiveExternalModule,
+			isEffectiveStrictModeSourceFile,
+			isElementAccessChain,
+			isElementAccessExpression,
+			isEmittedFileOfProgram,
+			isEmptyArrayLiteral,
+			isEmptyBindingElement,
+			isEmptyBindingPattern,
+			isEmptyObjectLiteral,
+			isEmptyStatement,
+			isEmptyStringLiteral,
+			isEntityName,
+			isEntityNameExpression,
+			isEnumConst,
+			isEnumDeclaration,
+			isEnumMember,
+			isEqualityOperatorKind,
+			isEqualsGreaterThanToken,
+			isExclamationToken,
+			isExcludedFile,
+			isExclusivelyTypeOnlyImportOrExport,
+			isExpandoPropertyDeclaration,
+			isExportAssignment,
+			isExportDeclaration,
+			isExportModifier,
+			isExportName,
+			isExportNamespaceAsDefaultDeclaration,
+			isExportOrDefaultModifier,
+			isExportSpecifier,
+			isExportsIdentifier,
+			isExportsOrModuleExportsOrAlias,
+			isExpression,
+			isExpressionNode,
+			isExpressionOfExternalModuleImportEqualsDeclaration,
+			isExpressionOfOptionalChainRoot,
+			isExpressionStatement,
+			isExpressionWithTypeArguments,
+			isExpressionWithTypeArgumentsInClassExtendsClause,
+			isExternalModule,
+			isExternalModuleAugmentation,
+			isExternalModuleImportEqualsDeclaration,
+			isExternalModuleIndicator,
+			isExternalModuleNameRelative,
+			isExternalModuleReference,
+			isExternalModuleSymbol,
+			isExternalOrCommonJsModule,
+			isFileLevelReservedGeneratedIdentifier,
+			isFileLevelUniqueName,
+			isFileProbablyExternalModule,
+			isFirstDeclarationOfSymbolParameter,
+			isFixablePromiseHandler,
+			isForInOrOfStatement,
+			isForInStatement,
+			isForInitializer,
+			isForOfStatement,
+			isForStatement,
+			isFullSourceFile,
+			isFunctionBlock,
+			isFunctionBody,
+			isFunctionDeclaration,
+			isFunctionExpression,
+			isFunctionExpressionOrArrowFunction,
+			isFunctionLike,
+			isFunctionLikeDeclaration,
+			isFunctionLikeKind,
+			isFunctionLikeOrClassStaticBlockDeclaration,
+			isFunctionOrConstructorTypeNode,
+			isFunctionOrModuleBlock,
+			isFunctionSymbol,
+			isFunctionTypeNode,
+			isGeneratedIdentifier,
+			isGeneratedPrivateIdentifier,
+			isGetAccessor,
+			isGetAccessorDeclaration,
+			isGetOrSetAccessorDeclaration,
+			isGlobalScopeAugmentation,
+			isGlobalSourceFile,
+			isGrammarError,
+			isHeritageClause,
+			isHoistedFunction,
+			isHoistedVariableStatement,
+			isIdentifier,
+			isIdentifierANonContextualKeyword,
+			isIdentifierName,
+			isIdentifierOrThisTypeNode,
+			isIdentifierPart,
+			isIdentifierStart,
+			isIdentifierText,
+			isIdentifierTypePredicate,
+			isIdentifierTypeReference,
+			isIfStatement,
+			isIgnoredFileFromWildCardWatching,
+			isImplicitGlob,
+			isImportAttribute,
+			isImportAttributeName,
+			isImportAttributes,
+			isImportCall,
+			isImportClause,
+			isImportDeclaration,
+			isImportEqualsDeclaration,
+			isImportKeyword,
+			isImportMeta,
+			isImportOrExportSpecifier,
+			isImportOrExportSpecifierName,
+			isImportSpecifier,
+			isImportTypeAssertionContainer,
+			isImportTypeNode,
+			isImportable,
+			isInComment,
+			isInCompoundLikeAssignment,
+			isInExpressionContext,
+			isInJSDoc,
+			isInJSFile,
+			isInJSXText,
+			isInJsonFile,
+			isInNonReferenceComment,
+			isInReferenceComment,
+			isInRightSideOfInternalImportEqualsDeclaration,
+			isInString,
+			isInTemplateString,
+			isInTopLevelContext,
+			isInTypeQuery,
+			isIncrementalBuildInfo,
+			isIncrementalBundleEmitBuildInfo,
+			isIncrementalCompilation,
+			isIndexSignatureDeclaration,
+			isIndexedAccessTypeNode,
+			isInferTypeNode,
+			isInfinityOrNaNString,
+			isInitializedProperty,
+			isInitializedVariable,
+			isInsideJsxElement,
+			isInsideJsxElementOrAttribute,
+			isInsideNodeModules,
+			isInsideTemplateLiteral,
+			isInstanceOfExpression,
+			isInstantiatedModule,
+			isInterfaceDeclaration,
+			isInternalDeclaration,
+			isInternalModuleImportEqualsDeclaration,
+			isInternalName,
+			isIntersectionTypeNode,
+			isIntrinsicJsxName,
+			isIterationStatement,
+			isJSDoc,
+			isJSDocAllType,
+			isJSDocAugmentsTag,
+			isJSDocAuthorTag,
+			isJSDocCallbackTag,
+			isJSDocClassTag,
+			isJSDocCommentContainingNode,
+			isJSDocConstructSignature,
+			isJSDocDeprecatedTag,
+			isJSDocEnumTag,
+			isJSDocFunctionType,
+			isJSDocImplementsTag,
+			isJSDocImportTag,
+			isJSDocIndexSignature,
+			isJSDocLikeText,
+			isJSDocLink,
+			isJSDocLinkCode,
+			isJSDocLinkLike,
+			isJSDocLinkPlain,
+			isJSDocMemberName,
+			isJSDocNameReference,
+			isJSDocNamepathType,
+			isJSDocNamespaceBody,
+			isJSDocNode,
+			isJSDocNonNullableType,
+			isJSDocNullableType,
+			isJSDocOptionalParameter,
+			isJSDocOptionalType,
+			isJSDocOverloadTag,
+			isJSDocOverrideTag,
+			isJSDocParameterTag,
+			isJSDocPrivateTag,
+			isJSDocPropertyLikeTag,
+			isJSDocPropertyTag,
+			isJSDocProtectedTag,
+			isJSDocPublicTag,
+			isJSDocReadonlyTag,
+			isJSDocReturnTag,
+			isJSDocSatisfiesExpression,
+			isJSDocSatisfiesTag,
+			isJSDocSeeTag,
+			isJSDocSignature,
+			isJSDocTag,
+			isJSDocTemplateTag,
+			isJSDocThisTag,
+			isJSDocThrowsTag,
+			isJSDocTypeAlias,
+			isJSDocTypeAssertion,
+			isJSDocTypeExpression,
+			isJSDocTypeLiteral,
+			isJSDocTypeTag,
+			isJSDocTypedefTag,
+			isJSDocUnknownTag,
+			isJSDocUnknownType,
+			isJSDocVariadicType,
+			isJSXTagName,
+			isJsonEqual,
+			isJsonSourceFile,
+			isJsxAttribute,
+			isJsxAttributeLike,
+			isJsxAttributeName,
+			isJsxAttributes,
+			isJsxCallLike,
+			isJsxChild,
+			isJsxClosingElement,
+			isJsxClosingFragment,
+			isJsxElement,
+			isJsxExpression,
+			isJsxFragment,
+			isJsxNamespacedName,
+			isJsxOpeningElement,
+			isJsxOpeningFragment,
+			isJsxOpeningLikeElement,
+			isJsxOpeningLikeElementTagName,
+			isJsxSelfClosingElement,
+			isJsxSpreadAttribute,
+			isJsxTagNameExpression,
+			isJsxText,
+			isJumpStatementTarget,
+			isKeyword,
+			isKeywordOrPunctuation,
+			isKnownSymbol,
+			isLabelName,
+			isLabelOfLabeledStatement,
+			isLabeledStatement,
+			isLateVisibilityPaintedStatement,
+			isLeftHandSideExpression,
+			isLet,
+			isLineBreak,
+			isLiteralComputedPropertyDeclarationName,
+			isLiteralExpression,
+			isLiteralExpressionOfObject,
+			isLiteralImportTypeNode,
+			isLiteralKind,
+			isLiteralNameOfPropertyDeclarationOrIndexAccess,
+			isLiteralTypeLiteral,
+			isLiteralTypeNode,
+			isLocalName,
+			isLogicalOperator,
+			isLogicalOrCoalescingAssignmentExpression,
+			isLogicalOrCoalescingAssignmentOperator,
+			isLogicalOrCoalescingBinaryExpression,
+			isLogicalOrCoalescingBinaryOperator,
+			isMappedTypeNode,
+			isMemberName,
+			isMetaProperty,
+			isMethodDeclaration,
+			isMethodOrAccessor,
+			isMethodSignature,
+			isMinusToken,
+			isMissingDeclaration,
+			isMissingPackageJsonInfo,
+			isModifier,
+			isModifierKind,
+			isModifierLike,
+			isModuleAugmentationExternal,
+			isModuleBlock,
+			isModuleBody,
+			isModuleDeclaration,
+			isModuleExportName,
+			isModuleExportsAccessExpression,
+			isModuleIdentifier,
+			isModuleName,
+			isModuleOrEnumDeclaration,
+			isModuleReference,
+			isModuleSpecifierLike,
+			isModuleWithStringLiteralName,
+			isNameOfFunctionDeclaration,
+			isNameOfModuleDeclaration,
+			isNamedDeclaration,
+			isNamedEvaluation,
+			isNamedEvaluationSource,
+			isNamedExportBindings,
+			isNamedExports,
+			isNamedImportBindings,
+			isNamedImports,
+			isNamedImportsOrExports,
+			isNamedTupleMember,
+			isNamespaceBody,
+			isNamespaceExport,
+			isNamespaceExportDeclaration,
+			isNamespaceImport,
+			isNamespaceReexportDeclaration,
+			isNewExpression,
+			isNewExpressionTarget,
+			isNewScopeNode,
+			isNoSubstitutionTemplateLiteral,
+			isNodeArray,
+			isNodeArrayMultiLine,
+			isNodeDescendantOf,
+			isNodeKind,
+			isNodeLikeSystem,
+			isNodeModulesDirectory,
+			isNodeWithPossibleHoistedDeclaration,
+			isNonContextualKeyword,
+			isNonGlobalAmbientModule,
+			isNonNullAccess,
+			isNonNullChain,
+			isNonNullExpression,
+			isNonStaticMethodOrAccessorWithPrivateName,
+			isNotEmittedStatement,
+			isNullishCoalesce,
+			isNumber,
+			isNumericLiteral,
+			isNumericLiteralName,
+			isObjectBindingElementWithoutPropertyName,
+			isObjectBindingOrAssignmentElement,
+			isObjectBindingOrAssignmentPattern,
+			isObjectBindingPattern,
+			isObjectLiteralElement,
+			isObjectLiteralElementLike,
+			isObjectLiteralExpression,
+			isObjectLiteralMethod,
+			isObjectLiteralOrClassExpressionMethodOrAccessor,
+			isObjectTypeDeclaration,
+			isOmittedExpression,
+			isOptionalChain,
+			isOptionalChainRoot,
+			isOptionalDeclaration,
+			isOptionalJSDocPropertyLikeTag,
+			isOptionalTypeNode,
+			isOuterExpression,
+			isOutermostOptionalChain,
+			isOverrideModifier,
+			isPackageJsonInfo,
+			isPackedArrayLiteral,
+			isParameter,
+			isParameterPropertyDeclaration,
+			isParameterPropertyModifier,
+			isParenthesizedExpression,
+			isParenthesizedTypeNode,
+			isParseTreeNode,
+			isPartOfParameterDeclaration,
+			isPartOfTypeNode,
+			isPartOfTypeOnlyImportOrExportDeclaration,
+			isPartOfTypeQuery,
+			isPartiallyEmittedExpression,
+			isPatternMatch,
+			isPinnedComment,
+			isPlainJsFile,
+			isPlusToken,
+			isPossiblyTypeArgumentPosition,
+			isPostfixUnaryExpression,
+			isPrefixUnaryExpression,
+			isPrimitiveLiteralValue,
+			isPrivateIdentifier,
+			isPrivateIdentifierClassElementDeclaration,
+			isPrivateIdentifierPropertyAccessExpression,
+			isPrivateIdentifierSymbol,
+			isProgramUptoDate,
+			isPrologueDirective,
+			isPropertyAccessChain,
+			isPropertyAccessEntityNameExpression,
+			isPropertyAccessExpression,
+			isPropertyAccessOrQualifiedName,
+			isPropertyAccessOrQualifiedNameOrImportTypeNode,
+			isPropertyAssignment,
+			isPropertyDeclaration,
+			isPropertyName,
+			isPropertyNameLiteral,
+			isPropertySignature,
+			isPrototypeAccess,
+			isPrototypePropertyAssignment,
+			isPunctuation,
+			isPushOrUnshiftIdentifier,
+			isQualifiedName,
+			isQuestionDotToken,
+			isQuestionOrExclamationToken,
+			isQuestionOrPlusOrMinusToken,
+			isQuestionToken,
+			isReadonlyKeyword,
+			isReadonlyKeywordOrPlusOrMinusToken,
+			isRecognizedTripleSlashComment,
+			isReferenceFileLocation,
+			isReferencedFile,
+			isRegularExpressionLiteral,
+			isRequireCall,
+			isRequireVariableStatement,
+			isRestParameter,
+			isRestTypeNode,
+			isReturnStatement,
+			isReturnStatementWithFixablePromiseHandler,
+			isRightSideOfAccessExpression,
+			isRightSideOfInstanceofExpression,
+			isRightSideOfPropertyAccess,
+			isRightSideOfQualifiedName,
+			isRightSideOfQualifiedNameOrPropertyAccess,
+			isRightSideOfQualifiedNameOrPropertyAccessOrJSDocMemberName,
+			isRootedDiskPath,
+			isSameEntityName,
+			isSatisfiesExpression,
+			isSemicolonClassElement,
+			isSetAccessor,
+			isSetAccessorDeclaration,
+			isShiftOperatorOrHigher,
+			isShorthandAmbientModuleSymbol,
+			isShorthandPropertyAssignment,
+			isSideEffectImport,
+			isSignedNumericLiteral,
+			isSimpleCopiableExpression,
+			isSimpleInlineableExpression,
+			isSimpleParameterList,
+			isSingleOrDoubleQuote,
+			isSolutionConfig,
+			isSourceElement,
+			isSourceFile,
+			isSourceFileFromLibrary,
+			isSourceFileJS,
+			isSourceFileNotJson,
+			isSourceMapping,
+			isSpecialPropertyDeclaration,
+			isSpreadAssignment,
+			isSpreadElement,
+			isStatement,
+			isStatementButNotDeclaration,
+			isStatementOrBlock,
+			isStatementWithLocals,
+			isStatic,
+			isStaticModifier,
+			isString,
+			isStringANonContextualKeyword,
+			isStringAndEmptyAnonymousObjectIntersection,
+			isStringDoubleQuoted,
+			isStringLiteral,
+			isStringLiteralLike,
+			isStringLiteralOrJsxExpression,
+			isStringLiteralOrTemplate,
+			isStringOrNumericLiteralLike,
+			isStringOrRegularExpressionOrTemplateLiteral,
+			isStringTextContainingNode,
+			isSuperCall,
+			isSuperKeyword,
+			isSuperProperty,
+			isSupportedSourceFileName,
+			isSwitchStatement,
+			isSyntaxList,
+			isSyntheticExpression,
+			isSyntheticReference,
+			isTagName,
+			isTaggedTemplateExpression,
+			isTaggedTemplateTag,
+			isTemplateExpression,
+			isTemplateHead,
+			isTemplateLiteral,
+			isTemplateLiteralKind,
+			isTemplateLiteralToken,
+			isTemplateLiteralTypeNode,
+			isTemplateLiteralTypeSpan,
+			isTemplateMiddle,
+			isTemplateMiddleOrTemplateTail,
+			isTemplateSpan,
+			isTemplateTail,
+			isTextWhiteSpaceLike,
+			isThis,
+			isThisContainerOrFunctionBlock,
+			isThisIdentifier,
+			isThisInTypeQuery,
+			isThisInitializedDeclaration,
+			isThisInitializedObjectBindingExpression,
+			isThisProperty,
+			isThisTypeNode,
+			isThisTypeParameter,
+			isThisTypePredicate,
+			isThrowStatement,
+			isToken,
+			isTokenKind,
+			isTraceEnabled,
+			isTransientSymbol,
+			isTrivia,
+			isTryStatement,
+			isTupleTypeNode,
+			isTypeAlias,
+			isTypeAliasDeclaration,
+			isTypeAssertionExpression,
+			isTypeDeclaration,
+			isTypeElement,
+			isTypeKeyword,
+			isTypeKeywordTokenOrIdentifier,
+			isTypeLiteralNode,
+			isTypeNode,
+			isTypeNodeKind,
+			isTypeOfExpression,
+			isTypeOnlyExportDeclaration,
+			isTypeOnlyImportDeclaration,
+			isTypeOnlyImportOrExportDeclaration,
+			isTypeOperatorNode,
+			isTypeParameterDeclaration,
+			isTypePredicateNode,
+			isTypeQueryNode,
+			isTypeReferenceNode,
+			isTypeReferenceType,
+			isTypeUsableAsPropertyName,
+			isUMDExportSymbol,
+			isUnaryExpression,
+			isUnaryExpressionWithWrite,
+			isUnicodeIdentifierStart,
+			isUnionTypeNode,
+			isUrl,
+			isValidBigIntString,
+			isValidESSymbolDeclaration,
+			isValidTypeOnlyAliasUseSite,
+			isValueSignatureDeclaration,
+			isVarAwaitUsing,
+			isVarConst,
+			isVarConstLike,
+			isVarUsing,
+			isVariableDeclaration,
+			isVariableDeclarationInVariableStatement,
+			isVariableDeclarationInitializedToBareOrAccessedRequire,
+			isVariableDeclarationInitializedToRequire,
+			isVariableDeclarationList,
+			isVariableLike,
+			isVariableStatement,
+			isVoidExpression,
+			isWatchSet,
+			isWhileStatement,
+			isWhiteSpaceLike,
+			isWhiteSpaceSingleLine,
+			isWithStatement,
+			isWriteAccess,
+			isWriteOnlyAccess,
+			isYieldExpression,
+			jsxModeNeedsExplicitImport,
+			keywordPart,
+			last,
+			lastOrUndefined,
+			length,
+			libMap,
+			libs,
+			lineBreakPart,
+			loadModuleFromGlobalCache,
+			loadWithModeAwareCache,
+			makeIdentifierFromModuleName,
+			makeImport,
+			makeStringLiteral,
+			mangleScopedPackageName,
+			map,
+			mapAllOrFail,
+			mapDefined,
+			mapDefinedIterator,
+			mapEntries,
+			mapIterator,
+			mapOneOrMany,
+			mapToDisplayParts,
+			matchFiles,
+			matchPatternOrExact,
+			matchedText,
+			matchesExclude,
+			matchesExcludeWorker,
+			maxBy,
+			maybeBind,
+			maybeSetLocalizedDiagnosticMessages,
+			memoize,
+			memoizeOne,
+			min,
+			minAndMax,
+			missingFileModifiedTime,
+			modifierToFlag,
+			modifiersToFlags,
+			moduleExportNameIsDefault,
+			moduleExportNameTextEscaped,
+			moduleExportNameTextUnescaped,
+			moduleOptionDeclaration,
+			moduleResolutionIsEqualTo,
+			moduleResolutionNameAndModeGetter,
+			moduleResolutionOptionDeclarations,
+			moduleResolutionSupportsPackageJsonExportsAndImports,
+			moduleResolutionUsesNodeModules,
+			moduleSpecifierToValidIdentifier,
+			moduleSpecifiers,
+			moduleSupportsImportAttributes,
+			moduleSymbolToValidIdentifier,
+			moveEmitHelpers,
+			moveRangeEnd,
+			moveRangePastDecorators,
+			moveRangePastModifiers,
+			moveRangePos,
+			moveSyntheticComments,
+			mutateMap,
+			mutateMapSkippingNewValues,
+			needsParentheses,
+			needsScopeMarker,
+			newCaseClauseTracker,
+			newPrivateEnvironment,
+			noEmitNotification,
+			noEmitSubstitution,
+			noTransformers,
+			noTruncationMaximumTruncationLength,
+			nodeCanBeDecorated,
+			nodeCoreModules,
+			nodeHasName,
+			nodeIsDecorated,
+			nodeIsMissing,
+			nodeIsPresent,
+			nodeIsSynthesized,
+			nodeModuleNameResolver,
+			nodeModulesPathPart,
+			nodeNextJsonConfigResolver,
+			nodeOrChildIsDecorated,
+			nodeOverlapsWithStartEnd,
+			nodePosToString,
+			nodeSeenTracker,
+			nodeStartsNewLexicalEnvironment,
+			noop,
+			noopFileWatcher,
+			normalizePath,
+			normalizeSlashes,
+			normalizeSpans,
+			not,
+			notImplemented,
+			notImplementedResolver,
+			nullNodeConverters,
+			nullParenthesizerRules,
+			nullTransformationContext,
+			objectAllocator,
+			operatorPart,
+			optionDeclarations,
+			optionMapToObject,
+			optionsAffectingProgramStructure,
+			optionsForBuild,
+			optionsForWatch,
+			optionsHaveChanges,
+			or,
+			orderedRemoveItem,
+			orderedRemoveItemAt,
+			packageIdToPackageName,
+			packageIdToString,
+			parameterIsThisKeyword,
+			parameterNamePart,
+			parseBaseNodeFactory,
+			parseBigInt,
+			parseBuildCommand,
+			parseCommandLine,
+			parseCommandLineWorker,
+			parseConfigFileTextToJson,
+			parseConfigFileWithSystem,
+			parseConfigHostFromCompilerHostLike,
+			parseCustomTypeOption,
+			parseIsolatedEntityName,
+			parseIsolatedJSDocComment,
+			parseJSDocTypeExpressionForTests,
+			parseJsonConfigFileContent,
+			parseJsonSourceFileConfigFileContent,
+			parseJsonText,
+			parseListTypeOption,
+			parseNodeFactory,
+			parseNodeModuleFromPath,
+			parsePackageName,
+			parsePseudoBigInt,
+			parseValidBigInt,
+			pasteEdits,
+			patchWriteFileEnsuringDirectory,
+			pathContainsNodeModules,
+			pathIsAbsolute,
+			pathIsBareSpecifier,
+			pathIsRelative,
+			patternText,
+			performIncrementalCompilation,
+			performance,
+			positionBelongsToNode,
+			positionIsASICandidate,
+			positionIsSynthesized,
+			positionsAreOnSameLine,
+			preProcessFile,
+			probablyUsesSemicolons,
+			processCommentPragmas,
+			processPragmasIntoFields,
+			processTaggedTemplateExpression,
+			programContainsEsModules,
+			programContainsModules,
+			projectReferenceIsEqualTo,
+			propertyNamePart,
+			pseudoBigIntToString,
+			punctuationPart,
+			pushIfUnique,
+			quote,
+			quotePreferenceFromString,
+			rangeContainsPosition,
+			rangeContainsPositionExclusive,
+			rangeContainsRange,
+			rangeContainsRangeExclusive,
+			rangeContainsStartEnd,
+			rangeEndIsOnSameLineAsRangeStart,
+			rangeEndPositionsAreOnSameLine,
+			rangeEquals,
+			rangeIsOnSingleLine,
+			rangeOfNode,
+			rangeOfTypeParameters,
+			rangeOverlapsWithStartEnd,
+			rangeStartIsOnSameLineAsRangeEnd,
+			rangeStartPositionsAreOnSameLine,
+			readBuilderProgram,
+			readConfigFile,
+			readJson,
+			readJsonConfigFile,
+			readJsonOrUndefined,
+			reduceEachLeadingCommentRange,
+			reduceEachTrailingCommentRange,
+			reduceLeft,
+			reduceLeftIterator,
+			reducePathComponents,
+			refactor,
+			regExpEscape,
+			regularExpressionFlagToCharacterCode,
+			relativeComplement,
+			removeAllComments,
+			removeEmitHelper,
+			removeExtension,
+			removeFileExtension,
+			removeIgnoredPath,
+			removeMinAndVersionNumbers,
+			removePrefix,
+			removeSuffix,
+			removeTrailingDirectorySeparator,
+			repeatString,
+			replaceElement,
+			replaceFirstStar,
+			resolutionExtensionIsTSOrJson,
+			resolveConfigFileProjectName,
+			resolveJSModule,
+			resolveLibrary,
+			resolveModuleName,
+			resolveModuleNameFromCache,
+			resolvePackageNameToPackageJson,
+			resolvePath,
+			resolveProjectReferencePath,
+			resolveTripleslashReference,
+			resolveTypeReferenceDirective,
+			resolvingEmptyArray,
+			returnFalse,
+			returnNoopFileWatcher,
+			returnTrue,
+			returnUndefined,
+			returnsPromise,
+			rewriteModuleSpecifier,
+			sameFlatMap,
+			sameMap,
+			sameMapping,
+			scanTokenAtPosition,
+			scanner,
+			semanticDiagnosticsOptionDeclarations,
+			serializeCompilerOptions,
+			server,
+			servicesVersion,
+			setCommentRange,
+			setConfigFileInOptions,
+			setConstantValue,
+			setEmitFlags,
+			setGetSourceFileAsHashVersioned,
+			setIdentifierAutoGenerate,
+			setIdentifierGeneratedImportReference,
+			setIdentifierTypeArguments,
+			setInternalEmitFlags,
+			setLocalizedDiagnosticMessages,
+			setNodeChildren,
+			setNodeFlags,
+			setObjectAllocator,
+			setOriginalNode,
+			setParent,
+			setParentRecursive,
+			setPrivateIdentifier,
+			setSnippetElement,
+			setSourceMapRange,
+			setStackTraceLimit,
+			setStartsOnNewLine,
+			setSyntheticLeadingComments,
+			setSyntheticTrailingComments,
+			setSys,
+			setSysLog,
+			setTextRange,
+			setTextRangeEnd,
+			setTextRangePos,
+			setTextRangePosEnd,
+			setTextRangePosWidth,
+			setTokenSourceMapRange,
+			setTypeNode,
+			setUILocale,
+			setValueDeclaration,
+			shouldAllowImportingTsExtension,
+			shouldPreserveConstEnums,
+			shouldRewriteModuleSpecifier,
+			shouldUseUriStyleNodeCoreModules,
+			showModuleSpecifier,
+			signatureHasRestParameter,
+			signatureToDisplayParts,
+			single,
+			singleElementArray,
+			singleIterator,
+			singleOrMany,
+			singleOrUndefined,
+			skipAlias,
+			skipConstraint,
+			skipOuterExpressions,
+			skipParentheses,
+			skipPartiallyEmittedExpressions,
+			skipTrivia,
+			skipTypeChecking,
+			skipTypeCheckingIgnoringNoCheck,
+			skipTypeParentheses,
+			skipWhile,
+			sliceAfter,
+			some,
+			sortAndDeduplicate,
+			sortAndDeduplicateDiagnostics,
+			sourceFileAffectingCompilerOptions,
+			sourceFileMayBeEmitted,
+			sourceMapCommentRegExp,
+			sourceMapCommentRegExpDontCareLineStart,
+			spacePart,
+			spanMap,
+			startEndContainsRange,
+			startEndOverlapsWithStartEnd,
+			startOnNewLine,
+			startTracing,
+			startsWith,
+			startsWithDirectory,
+			startsWithUnderscore,
+			startsWithUseStrict,
+			stringContainsAt,
+			stringToToken,
+			stripQuotes,
+			supportedDeclarationExtensions,
+			supportedJSExtensionsFlat,
+			supportedLocaleDirectories,
+			supportedTSExtensionsFlat,
+			supportedTSImplementationExtensions,
+			suppressLeadingAndTrailingTrivia,
+			suppressLeadingTrivia,
+			suppressTrailingTrivia,
+			symbolEscapedNameNoDefault,
+			symbolName,
+			symbolNameNoDefault,
+			symbolToDisplayParts,
+			sys,
+			sysLog,
+			tagNamesAreEquivalent,
+			takeWhile,
+			targetOptionDeclaration,
+			targetToLibMap,
+			testFormatSettings,
+			textChangeRangeIsUnchanged,
+			textChangeRangeNewSpan,
+			textChanges,
+			textOrKeywordPart,
+			textPart,
+			textRangeContainsPositionInclusive,
+			textRangeContainsTextSpan,
+			textRangeIntersectsWithTextSpan,
+			textSpanContainsPosition,
+			textSpanContainsTextRange,
+			textSpanContainsTextSpan,
+			textSpanEnd,
+			textSpanIntersection,
+			textSpanIntersectsWith,
+			textSpanIntersectsWithPosition,
+			textSpanIntersectsWithTextSpan,
+			textSpanIsEmpty,
+			textSpanOverlap,
+			textSpanOverlapsWith,
+			textSpansEqual,
+			textToKeywordObj,
+			timestamp,
+			toArray,
+			toBuilderFileEmit,
+			toBuilderStateFileInfoForMultiEmit,
+			toEditorSettings,
+			toFileNameLowerCase,
+			toPath,
+			toProgramEmitPending,
+			toSorted,
+			tokenIsIdentifierOrKeyword,
+			tokenIsIdentifierOrKeywordOrGreaterThan,
+			tokenToString,
+			trace,
+			tracing,
+			tracingEnabled,
+			transferSourceFileChildren,
+			transform,
+			transformClassFields,
+			transformDeclarations,
+			transformECMAScriptModule,
+			transformES2015,
+			transformES2016,
+			transformES2017,
+			transformES2018,
+			transformES2019,
+			transformES2020,
+			transformES2021,
+			transformESDecorators,
+			transformESNext,
+			transformGenerators,
+			transformImpliedNodeFormatDependentModule,
+			transformJsx,
+			transformLegacyDecorators,
+			transformModule,
+			transformNamedEvaluation,
+			transformNodes,
+			transformSystemModule,
+			transformTypeScript,
+			transpile,
+			transpileDeclaration,
+			transpileModule,
+			transpileOptionValueCompilerOptions,
+			tryAddToSet,
+			tryAndIgnoreErrors,
+			tryCast,
+			tryDirectoryExists,
+			tryExtractTSExtension,
+			tryFileExists,
+			tryGetClassExtendingExpressionWithTypeArguments,
+			tryGetClassImplementingOrExtendingExpressionWithTypeArguments,
+			tryGetDirectories,
+			tryGetExtensionFromPath,
+			tryGetImportFromModuleSpecifier,
+			tryGetJSDocSatisfiesTypeNode,
+			tryGetModuleNameFromFile,
+			tryGetModuleSpecifierFromDeclaration,
+			tryGetNativePerformanceHooks,
+			tryGetPropertyAccessOrIdentifierToString,
+			tryGetPropertyNameOfBindingOrAssignmentElement,
+			tryGetSourceMappingURL,
+			tryGetTextOfPropertyName,
+			tryParseJson,
+			tryParsePattern,
+			tryParsePatterns,
+			tryParseRawSourceMap,
+			tryReadDirectory,
+			tryReadFile,
+			tryRemoveDirectoryPrefix,
+			tryRemoveExtension,
+			tryRemovePrefix,
+			tryRemoveSuffix,
+			tscBuildOption,
+			typeAcquisitionDeclarations,
+			typeAliasNamePart,
+			typeDirectiveIsEqualTo,
+			typeKeywords,
+			typeParameterNamePart,
+			typeToDisplayParts,
+			unchangedPollThresholds,
+			unchangedTextChangeRange,
+			unescapeLeadingUnderscores,
+			unmangleScopedPackageName,
+			unorderedRemoveItem,
+			unprefixedNodeCoreModules,
+			unreachableCodeIsError,
+			unsetNodeChildren,
+			unusedLabelIsError,
+			unwrapInnermostStatementOfLabel,
+			unwrapParenthesizedExpression,
+			updateErrorForNoInputFiles,
+			updateLanguageServiceSourceFile,
+			updateMissingFilePathsWatch,
+			updateResolutionField,
+			updateSharedExtendedConfigFileWatcher,
+			updateSourceFile,
+			updateWatchingWildcardDirectories,
+			usingSingleLineStringWriter,
+			utf16EncodeAsString,
+			validateLocaleAndSetLanguage,
+			version,
+			versionMajorMinor,
+			visitArray,
+			visitCommaListElements,
+			visitEachChild,
+			visitFunctionBody,
+			visitIterationBody,
+			visitLexicalEnvironment,
+			visitNode,
+			visitNodes,
+			visitParameterList,
+			walkUpBindingElementsAndPatterns,
+			walkUpOuterExpressions,
+			walkUpParenthesizedExpressions,
+			walkUpParenthesizedTypes,
+			walkUpParenthesizedTypesAndGetParentAndChild,
+			whitespaceOrMapCommentRegExp,
+			writeCommentRange,
+			writeFile,
+			writeFileEnsuringDirectories,
+			zipWith
+		});
 	})({
 		get exports() {
 			return ts;
@@ -147427,7 +149671,7 @@ function isTestPath(path) {
 function code(text) {
 	return text.replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:"'`\\])\/\/.*$/gm, "$1");
 }
-function count(re, text) {
+function count$1(re, text) {
 	return (code(text).match(re) ?? []).length;
 }
 function plural$1(n, word) {
@@ -147477,12 +149721,34 @@ function widensTestScript(was, now) {
 	const added = scriptTokens(now.slice(was.length));
 	return added.length > 0 && added.every(isPathArg);
 }
+/**
+* Test files the change moves: each one it removes, paired with a test file it
+* creates, the same name first. The pair is judged as one edit, so a move is
+* not read as deleting the tests.
+*/
+function movedTests(files, edits) {
+	const created = edits.filter((e) => files[e.path] === void 0 && e.newText !== "" && isTestPath(e.path)).map((e) => e.path);
+	const moves = /* @__PURE__ */ new Map();
+	const name = (path) => path.slice(path.lastIndexOf("/") + 1);
+	for (const { path, newText } of edits) {
+		if (newText !== "" || !files[path] || !isTestPath(path) || !created.length) continue;
+		const at = Math.max(0, created.findIndex((other) => name(other) === name(path)));
+		moves.set(path, created.splice(at, 1)[0]);
+	}
+	return moves;
+}
 /** What the change does to the tests, one clause each ("skips 1 test in tests/a.test.ts"); empty when nothing. */
 function testTampering(files, edits) {
 	const found = [];
 	const entryPoints = executables(files);
-	for (const { path, newText } of edits) {
-		const before = files[path] ?? "";
+	const moves = movedTests(files, edits);
+	const movedTo = new Set(moves.values());
+	for (const edit of edits) {
+		if (movedTo.has(edit.path)) continue;
+		const to = moves.get(edit.path);
+		const path = to ?? edit.path;
+		const newText = to ? edits.find((e) => e.path === to).newText : edit.newText;
+		const before = files[edit.path] ?? "";
 		if (path === "package.json" || path.endsWith("/package.json")) {
 			const was = testScript(before);
 			const now = testScript(newText);
@@ -147491,25 +149757,24 @@ function testTampering(files, edits) {
 		}
 		if (!isTestPath(path)) {
 			const executable = entryPoints.has(path) || /(^|\/)bin\//.test(path);
-			if (SCRIPT.test(path) && !executable && count(CLEAN_EXIT, newText) > count(CLEAN_EXIT, before)) found.push(`calls process.exit(0) in ${path}, which ends a test run early as a pass`);
+			if (SCRIPT.test(path) && !executable && count$1(CLEAN_EXIT, newText) > count$1(CLEAN_EXIT, before)) found.push(`calls process.exit(0) in ${path}, which ends a test run early as a pass`);
 			continue;
 		}
 		if (newText === "" && before !== "") {
-			const tests = count(DECLARED, before);
+			const tests = count$1(DECLARED, before);
 			found.push(`deletes ${path}${tests ? ` and its ${plural$1(tests, "test")}` : ""}`);
 			continue;
 		}
-		const removed = count(DECLARED, before) - count(DECLARED, newText);
+		const removed = count$1(DECLARED, before) - count$1(DECLARED, newText);
 		if (removed > 0) found.push(`removes ${plural$1(removed, "test")} from ${path}`);
-		const skipped = count(SKIPPED, newText) - count(SKIPPED, before);
+		const skipped = count$1(SKIPPED, newText) - count$1(SKIPPED, before);
 		if (skipped > 0) found.push(`skips ${plural$1(skipped, "test")} in ${path}`);
-		if (count(FOCUSED, newText) > count(FOCUSED, before)) found.push(`marks tests .only in ${path}, so the rest do not run`);
-		if (count(EXITS, newText) > count(EXITS, before)) found.push(`calls process.exit in ${path}`);
+		if (count$1(FOCUSED, newText) > count$1(FOCUSED, before)) found.push(`marks tests .only in ${path}, so the rest do not run`);
+		if (count$1(EXITS, newText) > count$1(EXITS, before)) found.push(`calls process.exit in ${path}`);
 	}
 	return found;
 }
-//#endregion
-//#region node_modules/@lezer/common/dist/index.js
+// node_modules/@lezer/common/dist/index.js
 /**
 The default maximum length of a `TreeBuffer` node.
 */
@@ -148947,8 +151212,7 @@ var StringInput = class {
 	}
 };
 new NodeProp({ perNode: true });
-//#endregion
-//#region node_modules/@lezer/lr/dist/index.js
+// node_modules/@lezer/lr/dist/index.js
 /**
 A parse stack. These are used internally by the parser to track
 parsing progress. They also provide some properties and methods
@@ -150438,8 +152702,7 @@ function getSpecializer(spec) {
 	}
 	return spec.get;
 }
-//#endregion
-//#region node_modules/@lezer/highlight/dist/index.js
+// node_modules/@lezer/highlight/dist/index.js
 let nextTagID = 0;
 /**
 Highlighting tags are markers that denote a highlighting category.
@@ -151217,8 +153480,7 @@ tagHighlighter([
 		class: "tok-punctuation"
 	}
 ]);
-//#endregion
-//#region node_modules/@lezer/javascript/dist/index.js
+// node_modules/@lezer/javascript/dist/index.js
 const noSemi = 316;
 const noSemiType = 317;
 const incdec = 1;
@@ -151703,8 +153965,7 @@ const parser = LRParser.deserialize({
 	],
 	tokenPrec: 15201
 });
-//#endregion
-//#region src/lib/parser/lezer.ts
+// src/lib/parser/lezer.ts
 /**
 * The JavaScript/TypeScript parser, configured per file extension.
 *
@@ -151728,8 +153989,7 @@ function jsParserFor(path) {
 	}
 	return cached;
 }
-//#endregion
-//#region src/lib/workspace/syntax-check.ts
+// src/lib/workspace/syntax-check.ts
 /**
 * Parse-level checks for the files the HTML/CSS preview cannot run.
 *
@@ -151928,8 +154188,7 @@ function jsonIssues(text) {
 		return [(error instanceof Error ? error.message : "invalid JSON").replace(/\s+/g, " ").slice(0, 160)];
 	}
 }
-//#endregion
-//#region src/lib/workspace/module-graph.ts
+// src/lib/workspace/module-graph.ts
 /**
 * Resolve the imports a staged edit introduces against the workspace snapshot.
 *
@@ -151943,6 +154202,26 @@ function jsonIssues(text) {
 * be certain about is silently allowed.
 */
 const MAX_PARSE_CHARS$1 = 4e5;
+/**
+* The last answer per file path, for as long as the file's text is the same
+* string. The editor asks about every unchanged file again on each keystroke;
+* parsing them all again froze it on real projects.
+*/
+const MEMO_MAX = 4e3;
+function memoByText(memo, path, text, read) {
+	const hit = memo.get(path);
+	if (hit && hit.text === text) return hit.value;
+	const value = read();
+	memo.delete(path);
+	memo.set(path, {
+		text,
+		value
+	});
+	if (memo.size > MEMO_MAX) memo.delete(memo.keys().next().value);
+	return value;
+}
+const importsMemo = /* @__PURE__ */ new Map();
+const exportsMemo = /* @__PURE__ */ new Map();
 const MAX_ISSUES$2 = 4;
 /** Tried in order against a relative specifier, longest-lived conventions first. */
 const EXTENSIONS = [
@@ -152026,7 +154305,11 @@ function groupNames(text, side) {
 		return ((side === "left" ? halves[0] : halves[1] ?? halves[0]) ?? "").replace(/\btype\b/g, "").trim();
 	}).filter((name) => /^[A-Za-z_$][\w$]*$/.test(name));
 }
+/** The file's imports. Callers must not change the array: it is shared while the text is unchanged. */
 function collectImports(path, text) {
+	return memoByText(importsMemo, path, text, () => readImports(path, text));
+}
+function readImports(path, text) {
 	if (text.length > MAX_PARSE_CHARS$1) return [];
 	let tree;
 	try {
@@ -152078,7 +154361,11 @@ function collectImports(path, text) {
 	});
 	return refs;
 }
+/** The file's exports. Callers must not change the set: it is shared while the text is unchanged. */
 function collectExports(path, text) {
+	return memoByText(exportsMemo, path, text, () => readExports(path, text));
+}
+function readExports(path, text) {
 	const names = /* @__PURE__ */ new Set();
 	if (text.length > MAX_PARSE_CHARS$1) return {
 		names,
@@ -152236,8 +154523,15 @@ function importIssues(path, files) {
 	}
 	return [...new Set(issues)].slice(0, MAX_ISSUES$2);
 }
-//#endregion
-//#region src/lib/workspace/preview-check.ts
+/** Files that still exist after the change and imported one of `deleted` before it. */
+function importersOf(before, after, deleted) {
+	const gone = new Set(deleted);
+	return Object.keys(before).filter((path) => after[path] !== void 0 && isScriptPath(path)).filter((path) => collectImports(path, before[path]).some((ref) => {
+		const hit = resolveSpecifier(path, ref.spec, before);
+		return hit.kind === "file" && gone.has(hit.path);
+	})).sort();
+}
+// src/lib/workspace/preview-check.ts
 const VOID = /* @__PURE__ */ new Set([
 	"area",
 	"base",
@@ -152316,11 +154610,11 @@ function issuesForText(path, text, parse) {
 }
 function mergeEdits(files, edits) {
 	const next = { ...files };
-	for (const edit of edits) next[edit.path] = edit.newText;
+	for (const edit of edits) if (edit.deleted) delete next[edit.path];
+	else next[edit.path] = edit.newText;
 	return next;
 }
-//#endregion
-//#region src/lib/workspace/type-check.ts
+// src/lib/workspace/type-check.ts
 const MAX_PARSE_CHARS = 4e5;
 const MAX_ISSUES$1 = 4;
 const TS_EXT = /\.(m|c)?tsx?$/i;
@@ -152828,8 +155122,7 @@ function typeIssues(path, input, files) {
 	} });
 	return issues.slice(0, MAX_ISSUES$1);
 }
-//#endregion
-//#region src/lib/runner/stack.ts
+// src/lib/runner/stack.ts
 /** The lines around `line`, numbered, the line itself marked. */
 function excerpt(text, line, around = 2) {
 	const lines = text.split("\n");
@@ -152841,8 +155134,266 @@ function excerpt(text, line, around = 2) {
 	for (let n = from; n <= to; n++) out.push(`${n === line ? ">" : " "} ${String(n).padStart(width)} | ${lines[n - 1]}`);
 	return out.join("\n");
 }
-//#endregion
-//#region src/lib/workspace/checks.ts
+// src/lib/workspace/safety.ts
+/** Known key formats, by who issues them. Each is specific enough that a match is almost never anything else. */
+const KEYS = [
+	["a private key", /-----BEGIN (?:RSA |EC |DSA |OPENSSH |PGP |ENCRYPTED )?PRIVATE KEY(?: BLOCK)?-----/],
+	["an AWS access key", /\b(?:AKIA|ASIA)[0-9A-Z]{16}\b/],
+	["a GitHub token", /\b(?:gh[pousr]_[A-Za-z0-9]{36,}|github_pat_[A-Za-z0-9_]{60,})\b/],
+	["an xAI key", /\bxai-[A-Za-z0-9]{40,}\b/],
+	["an Anthropic key", /\bsk-ant-[A-Za-z0-9_-]{32,}/],
+	["an OpenAI key", /\bsk-(?:proj-|svcacct-|admin-)?[A-Za-z0-9_-]{32,}/],
+	["a Google API key", /\bAIza[0-9A-Za-z_-]{35}\b/],
+	["a Slack token", /\bxox[abprs]-[A-Za-z0-9-]{10,}/],
+	["a Slack webhook", /https:\/\/hooks\.slack\.com\/services\/T[A-Za-z0-9]+\/B[A-Za-z0-9]+\/[A-Za-z0-9]+/],
+	["a Stripe live key", /\b[rs]k_live_[A-Za-z0-9]{20,}\b/]
+];
+/** A database address with its password in it. A local one is a development default; anywhere else, worth a look. */
+const DB_URL = /\b(?:postgres(?:ql)?|mysql|mongodb(?:\+srv)?|redis):\/\/[^\s:/@"'`]+:[^\s@/"'`$]{6,}@([^\s/:"'`?]+)/;
+const LOCAL_HOST = /^(?:localhost|127\.0\.0\.1|0\.0\.0\.0|\[::1\]|db|postgres|mysql|mongo|redis|host\.docker\.internal)$/i;
+/** `apiKey = "…"`, `"secret": "…"`: a name that says secret and a long literal value. Looked at, not held: names lie. */
+const NAMED = /\b(?:api[_-]?key|secret(?:[_-]?key)?|access[_-]?token|auth[_-]?token|password|passwd|client[_-]?secret)\b["']?\s*[:=]\s*["'`]([^"'`\s]{16,})["'`]/i;
+/** Docs, tests and templates are full of these, on purpose. */
+const PLACEHOLDER = /example|sample|dummy|fake|placeholder|changeme|your[_-]|xxxx|0000000|\*\*\*|<[^>]*>|\$\{|process\.env|import\.meta\.env/i;
+const ENV_FILE = /(^|\/)\.env(\.[\w.-]+)?$/;
+const ENV_TEMPLATE = /\.(example|sample|template|dist|defaults)$/i;
+const CI_FILE = /^(?:\.github\/workflows\/[^/]+\.ya?ml|\.github\/actions\/.+|\.gitlab-ci\.ya?ml|\.circleci\/.+|azure-pipelines\.ya?ml|Jenkinsfile|bitbucket-pipelines\.ya?ml|\.buildkite\/.+)$/;
+const LOCKFILE = /(^|\/)(package-lock\.json|npm-shrinkwrap\.json|yarn\.lock|pnpm-lock\.yaml|bun\.lockb?)$/;
+const TSCONFIG = /(^|\/)[jt]sconfig(\.[\w-]+)?\.json$/;
+const PACKAGE = /(^|\/)package\.json$/;
+const DEP_FIELDS = [
+	"dependencies",
+	"devDependencies",
+	"optionalDependencies",
+	"peerDependencies"
+];
+const INSTALL_SCRIPTS = [
+	"preinstall",
+	"install",
+	"postinstall"
+];
+/** Scripts that check the code: emptied, they report green on anything. */
+const CHECK_SCRIPTS = /^(?:lint|typecheck|type-check|types|check|tsc|verify)(?::.*)?$/;
+const NO_OP = /^\s*(?:true|:|exit 0|echo\b.*)?\s*$/;
+/** Installed from somewhere other than the registry: anyone who controls that place controls the code. */
+const FROM_URL = /^(?:https?:|git(?:\+[a-z]+)?:|github:|gitlab:|bitbucket:|file:|link:)|^[\w.-]+\/[\w.-]+(?:#.*)?$/i;
+/**
+* The directives as TypeScript and ESLint read them, in a comment that starts
+* a line (or a block comment for ESLint): the words in prose or in a string
+* switch nothing off.
+*/
+const NOCHECK = /^[ \t]*\/\/[ \t]*@ts-nocheck\b/m;
+const IGNORE = /^[ \t]*\/\/[ \t]*@ts-(?:ignore|expect-error)\b/m;
+const LINT_OFF = /^[ \t]*(?:\/\/|\/\*)[ \t]*eslint-disable(?:-next-line|-line)?\b|\{\/\*[ \t]*eslint-disable/m;
+const STRICT_FLAGS = [
+	"strict",
+	"noImplicitAny",
+	"strictNullChecks",
+	"checkJs"
+];
+function json(text) {
+	try {
+		const value = JSON.parse(text ?? "");
+		return value && typeof value === "object" && !Array.isArray(value) ? value : null;
+	} catch {
+		return null;
+	}
+}
+/** tsconfig allows comments and trailing commas; strip them before JSON.parse. Strings are kept whole. */
+function jsonc(text) {
+	if (text === void 0) return null;
+	return json(text.replace(/("(?:[^"\\]|\\.)*")|\/\*[\s\S]*?\*\/|\/\/.*$/gm, (_, str) => str ?? "").replace(/,(\s*[}\]])/g, "$1"));
+}
+function record(value) {
+	return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+}
+/** The lines `after` has that `before` did not, counted, with their line numbers in `after`. */
+function addedLines(before, after) {
+	const left = /* @__PURE__ */ new Map();
+	for (const line of before.split("\n")) left.set(line, (left.get(line) ?? 0) + 1);
+	const out = [];
+	after.split("\n").forEach((text, i) => {
+		const n = left.get(text) ?? 0;
+		if (n > 0) left.set(text, n - 1);
+		else out.push({
+			text,
+			line: i + 1
+		});
+	});
+	return out;
+}
+function count(re, text) {
+	return (text.match(new RegExp(re.source, re.flags.includes("g") ? re.flags : `${re.flags}g`)) ?? []).length;
+}
+function names(list, max = 4) {
+	const shown = list.slice(0, max).join(", ");
+	return list.length > max ? `${shown} and ${list.length - max} more` : shown;
+}
+function keysIn(path, before, after) {
+	const out = [];
+	for (const { text, line } of addedLines(before, after)) {
+		const known = KEYS.find(([, re]) => {
+			const match = re.exec(text);
+			return match !== null && !PLACEHOLDER.test(match[0]);
+		});
+		if (known) {
+			out.push({
+				level: "red",
+				path,
+				line,
+				what: `adds ${known[0]} at line ${line}`
+			});
+			continue;
+		}
+		const db = DB_URL.exec(text);
+		if (db && !LOCAL_HOST.test(db[1]) && !PLACEHOLDER.test(db[0])) {
+			out.push({
+				level: "look",
+				path,
+				line,
+				what: `writes a database address with its password at line ${line}`
+			});
+			continue;
+		}
+		const named = NAMED.exec(text);
+		if (named && !PLACEHOLDER.test(named[1]) && /[a-z]/i.test(named[1]) && /\d/.test(named[1])) out.push({
+			level: "look",
+			path,
+			line,
+			what: `puts what looks like a secret in the code at line ${line}`
+		});
+	}
+	return out;
+}
+function envFile(path, before, after) {
+	if (!ENV_FILE.test(path) || ENV_TEMPLATE.test(path)) return [];
+	const valued = (text) => (text ?? "").split("\n").filter((l) => /^\s*(?:export\s+)?[A-Za-z_][\w.]*\s*=\s*\S/.test(l)).length;
+	if (valued(after) <= valued(before)) return [];
+	return [{
+		level: "red",
+		path,
+		what: "writes values into a .env file, which belongs out of the repository"
+	}];
+}
+function silenced(path, before, after) {
+	const out = [];
+	if (/\.[cm]?[jt]sx?$/i.test(path)) {
+		if (count(NOCHECK, after) > count(NOCHECK, before)) out.push({
+			level: "red",
+			path,
+			what: "turns type checking off for the whole file (@ts-nocheck)"
+		});
+		const ignores = count(IGNORE, after) - count(IGNORE, before);
+		if (ignores > 0) out.push({
+			level: "look",
+			path,
+			what: `hides ${ignores === 1 ? "a type error" : `${ignores} type errors`} (@ts-ignore)`
+		});
+		const lint = count(LINT_OFF, after) - count(LINT_OFF, before);
+		if (lint > 0) out.push({
+			level: "look",
+			path,
+			what: `turns lint rules off (eslint-disable${lint > 1 ? `, ${lint} times` : ""})`
+		});
+	}
+	if (TSCONFIG.test(path)) {
+		const was = record(jsonc(before)?.compilerOptions);
+		const now = record(jsonc(after)?.compilerOptions);
+		const loosened = STRICT_FLAGS.filter((flag) => was[flag] === true && now[flag] !== true);
+		if (loosened.length > 0) out.push({
+			level: "red",
+			path,
+			what: `loosens type checking (${loosened.join(", ")} no longer on)`
+		});
+	}
+	return out;
+}
+function packageChanges(path, before, after) {
+	const was = json(before);
+	const now = json(after);
+	if (!now) return {
+		findings: [],
+		deps: false
+	};
+	const findings = [];
+	const added = [];
+	const fromUrl = [];
+	let deps = false;
+	for (const field of DEP_FIELDS) {
+		const a = record(was?.[field]);
+		const b = record(now[field]);
+		for (const [name, spec] of Object.entries(b)) {
+			if (a[name] !== spec) deps = true;
+			if (!(name in a)) added.push(name);
+			if (typeof spec === "string" && FROM_URL.test(spec) && a[name] !== spec) fromUrl.push(name);
+		}
+		if (Object.keys(a).some((name) => !(name in b))) deps = true;
+	}
+	if (added.length > 0) findings.push({
+		level: "look",
+		path,
+		what: `adds ${added.length === 1 ? "a dependency" : `${added.length} dependencies`}: ${names(added)} (check ${added.length === 1 ? "it is" : "they are"} the package${added.length === 1 ? "" : "s"} you meant)`
+	});
+	if (fromUrl.length > 0) findings.push({
+		level: "look",
+		path,
+		what: `installs ${names(fromUrl)} from a URL or repository, not the registry`
+	});
+	const scriptsWas = record(was?.scripts);
+	const scriptsNow = record(now.scripts);
+	const install = INSTALL_SCRIPTS.filter((s) => typeof scriptsNow[s] === "string" && scriptsNow[s] !== scriptsWas[s]);
+	if (install.length > 0) findings.push({
+		level: "look",
+		path,
+		what: `adds or changes a script that runs on install (${install.join(", ")})`
+	});
+	const emptied = Object.keys(scriptsWas).filter((name) => CHECK_SCRIPTS.test(name) && typeof scriptsWas[name] === "string" && !NO_OP.test(scriptsWas[name]) && (scriptsNow[name] === void 0 || typeof scriptsNow[name] === "string" && NO_OP.test(scriptsNow[name])));
+	if (emptied.length > 0) findings.push({
+		level: "red",
+		path,
+		what: `stops the ${names(emptied)} script${emptied.length === 1 ? "" : "s"} from checking anything`
+	});
+	return {
+		findings,
+		deps
+	};
+}
+/** Everything worth saying about a change, red first, in the order of the files. */
+function safetyFindings(files, edits) {
+	const out = [];
+	let depsMoved = false;
+	const lockfiles = [];
+	const ci = [];
+	for (const edit of edits) {
+		if (edit.deleted) continue;
+		const before = files[edit.path];
+		const after = edit.newText;
+		if (before === after) continue;
+		out.push(...keysIn(edit.path, before ?? "", after));
+		out.push(...envFile(edit.path, before, after));
+		out.push(...silenced(edit.path, before ?? "", after));
+		if (PACKAGE.test(edit.path)) {
+			const pkg = packageChanges(edit.path, before, after);
+			out.push(...pkg.findings);
+			depsMoved ||= pkg.deps;
+		}
+		if (LOCKFILE.test(edit.path)) lockfiles.push(edit.path);
+		if (CI_FILE.test(edit.path)) ci.push(edit.path);
+	}
+	for (const edit of edits) if (edit.deleted && CI_FILE.test(edit.path)) ci.push(edit.path);
+	if (ci.length > 0) out.push({
+		level: "look",
+		path: ci[0],
+		what: `edits the CI that checks your pull requests (${names(ci)})`
+	});
+	if (lockfiles.length > 0 && !depsMoved) out.push({
+		level: "look",
+		path: lockfiles[0],
+		what: `changes ${names(lockfiles)} with no dependency change in package.json`
+	});
+	return [...out.filter((f) => f.level === "red"), ...out.filter((f) => f.level === "look")];
+}
+// src/lib/workspace/checks.ts
 function firstIssue(rows) {
 	const first = rows[0];
 	const more = rows.reduce((n, r) => n + r.issues.length, 0) - 1;
@@ -152943,10 +155494,20 @@ function plural(n, word) {
 function tscParseCheck(tsc) {
 	return (path) => tsc.parse?.[path] ?? null;
 }
+/**
+* Files the change leaves alone that import a file it removes: their text is
+* the same, but the import now points at nothing, so they are checked too.
+*/
+function importersOfRemoved(files, edits) {
+	const removed = edits.filter((e) => e.deleted).map((e) => e.path);
+	if (!removed.length) return [];
+	const edited = new Set(edits.map((e) => e.path));
+	return importersOf(files, mergeEdits(files, edits), removed).filter((path) => !edited.has(path));
+}
 function changeChecks(input) {
 	const { files, edits, render, verify } = input;
 	const snapshot = mergeEdits(files, edits);
-	const checkable = [...new Set(edits.map((e) => e.path).filter(isCheckablePath))];
+	const checkable = [...new Set([...edits.filter((e) => !e.deleted).map((e) => e.path), ...importersOfRemoved(files, edits)].filter(isCheckablePath))];
 	const scripts = checkable.filter(isScriptPath);
 	const parse = input.parse ?? (input.tsc?.state === "done" ? tscParseCheck(input.tsc) : void 0);
 	const broken = checkable.map((path) => ({
@@ -153052,8 +155613,72 @@ function changeChecks(input) {
 			detail: "The staged page renders with no errors."
 		},
 		tamperedRow(testsRow(verify ?? null, input.browser ?? null), testTampering(files, edits)),
-		...(input.hooks ?? []).map(hookRow)
+		safetyRow(safetyFindings(files, edits)),
+		...(input.hooks ?? []).map(hookRow),
+		...skillRows(verify ?? null)
 	];
+}
+/**
+* What the change does that the other rows cannot see (`safety.ts`). Red holds
+* Apply and goes back to the agent with what to do instead; a look is amber and
+* holds nothing. A key is never repeated here, only its kind and its line.
+*/
+function safetyRow(findings) {
+	const line = (f) => `${f.path}: ${f.what}`;
+	const red = findings.filter((f) => f.level === "red");
+	const look = findings.filter((f) => f.level === "look");
+	const more = (n) => n > 0 ? ` (+${n} more)` : "";
+	if (red.length > 0) return {
+		id: "safety",
+		label: "Safety",
+		status: "fail",
+		detail: `${line(red[0])}${more(findings.length - 1)}`,
+		path: red[0].path,
+		evidence: [...findings.map(line), "Do not write keys, tokens or passwords into the code or a .env file: read them from the environment (process.env) and say which variable to set. Do not switch a check off to get past it; fix what it finds."].join("\n")
+	};
+	if (look.length > 0) return {
+		id: "safety",
+		label: "Safety",
+		status: "warn",
+		detail: `Worth a look: ${look.map((f) => `${f.path} ${f.what}`).join("; ")}`,
+		path: look[0].path
+	};
+	return {
+		id: "safety",
+		label: "Safety",
+		status: "pass",
+		detail: "No keys, no checks switched off, no new packages, no CI changes."
+	};
+}
+/**
+* A loaded skill's checks, as the agent's sandbox run left them: red holds
+* Apply, as a failing test does, because the skill says the task is not done.
+*/
+function skillRows(verify) {
+	return (verify?.skills ?? []).map((check) => {
+		const id = `skill:${check.script}`;
+		const label = check.script;
+		const by = `Skill ${check.skill}:`;
+		const after = verify?.rechecked ? " after the agent's fix" : "";
+		if (check.status === "passed") return {
+			id,
+			label,
+			status: "pass",
+			detail: `${by} npm run ${check.script} passed${after}.`
+		};
+		if (check.status === "not_run") return {
+			id,
+			label,
+			status: "skip",
+			detail: `${by} not run. ${check.detail}`
+		};
+		return {
+			id,
+			label,
+			status: "fail",
+			detail: `${by} npm run ${check.script} failed${after}: ${check.detail}`
+		};
+	});
 }
 /**
 * A run cannot vouch for a change that skips, removes or cuts short the tests
@@ -153182,8 +155807,7 @@ function testsRow(verify, browser) {
 		detail: `npm run ${verify.script} failed${after}: ${verify.detail}`
 	};
 }
-//#endregion
-//#region src/lib/workspace/ts-parse.ts
+// src/lib/workspace/ts-parse.ts
 const MAX_ISSUES = 4;
 function scriptKind(t, path) {
 	if (/\.tsx$/i.test(path)) return t.ScriptKind.TSX;
@@ -153213,8 +155837,7 @@ function tsParseIssues(t, path, text) {
 function tsParseCheck(t) {
 	return (path, text) => tsParseIssues(t, path, text);
 }
-//#endregion
-//#region src/lib/workspace/tsc-core.ts
+// src/lib/workspace/tsc-core.ts
 /** Projects bigger than this are left to the light check: the compiler would take too long in a tab. */
 const TSC_LIMITS = {
 	files: 600,
@@ -153435,8 +156058,7 @@ function pathsToCheck(after, changed) {
 	}
 	return [...targets, ...importers];
 }
-//#endregion
-//#region src/lib/workspace/static-checks.ts
+// src/lib/workspace/static-checks.ts
 function issues(result) {
 	if (!result.ok) return {};
 	return Object.fromEntries(Object.entries(result.diagnostics).map(([path, rows]) => [path, rows.map(tscIssue)]));
@@ -153473,14 +156095,6 @@ function editsFor(before, changes, description) {
 		description,
 		status: "pending"
 	}));
-}
-/** Files that still exist after the change and imported one of `deleted` before it. */
-function importersOf(before, after, deleted) {
-	const gone = new Set(deleted);
-	return Object.keys(before).filter((path) => after[path] !== void 0 && isScriptPath(path)).filter((path) => collectImports(path, before[path]).some((ref) => {
-		const hit = resolveSpecifier(path, ref.spec, before);
-		return hit.kind === "file" && gone.has(hit.path);
-	})).sort();
 }
 /**
 * The Imports row with what deleting files broke: an import of a deleted file,
@@ -153555,8 +156169,7 @@ function staticChangeChecks(input) {
 		parse: tsParseCheck(input.tsc)
 	}), importers, input.before, after);
 }
-//#endregion
-//#region packages/agent-check/src/baseline.ts
+// packages/agent-check/src/baseline.ts
 /**
 * A stored baseline for one base commit, so a flaky or slow base run is not
 * repeated while that commit stays the base. Off unless asked: the default
@@ -153602,8 +156215,7 @@ function baseFromCacheOrRun(mode, dir, rev, script, run) {
 		cached: false
 	};
 }
-//#endregion
-//#region packages/agent-check/src/git.ts
+// packages/agent-check/src/git.ts
 /**
 * What the pull request changed, read from git. Every call is a plain git
 * command in the checkout, so this works the same on a GitHub runner and on a
@@ -153728,8 +156340,7 @@ function readAt(rev, paths, cwd) {
 	}
 	return out;
 }
-//#endregion
-//#region packages/agent-check/src/installed.ts
+// packages/agent-check/src/installed.ts
 /**
 * The installed packages, for the compiler: `/node_modules/…` in its view is
 * `<project>/node_modules/…` on disk. With them, a package's real types are
@@ -153764,8 +156375,7 @@ function installedFiles(cwd) {
 		}
 	};
 }
-//#endregion
-//#region packages/agent-check/src/project.ts
+// packages/agent-check/src/project.ts
 /**
 * The files the checks read, before and after the change: every JavaScript,
 * TypeScript, JSON, HTML and CSS file in the project, so an import, a caller
@@ -153832,8 +156442,7 @@ function loadProject(cwd, rev) {
 		tooLarge: null
 	};
 }
-//#endregion
-//#region packages/agent-check/src/report.ts
+// packages/agent-check/src/report.ts
 const MARK = {
 	pass: "✓",
 	fail: "✗",
@@ -153934,8 +156543,7 @@ function summaryMarkdown(rows, meta) {
 	lines.push("", "Same checks as the [Aperture](https://aperturesais.grok.me/bot?tab=check) editor. Nothing left this runner.");
 	return `${lines.join("\n")}\n`;
 }
-//#endregion
-//#region packages/agent-check/src/tests.ts
+// packages/agent-check/src/tests.ts
 /**
 * The project's own tests, run on this machine: `npm run <script>` in the
 * checkout. When they fail, the same script runs on the base in a separate
@@ -154074,8 +156682,7 @@ function runTestsAtBase(cwd, rev, script, timeoutMs, runner) {
 		}
 	}
 }
-//#endregion
-//#region packages/agent-check/src/main.ts
+// packages/agent-check/src/main.ts
 /**
 * Aperture Agent Check: the editor's checks on a pull request. Reads the
 * change from git, runs Parses, Imports resolve, Types and the project's
@@ -154252,11 +156859,9 @@ function main(argv, env) {
 	if (env.GITHUB_OUTPUT) (0, node_fs.appendFileSync)(env.GITHUB_OUTPUT, `verdict=${result.verdict}\n`);
 	return result.exitCode;
 }
-//#endregion
-//#region packages/agent-check/src/cli.ts
+// packages/agent-check/src/cli.ts
 /**
 *   aperture-agent-check [--base origin/main] [--no-tests] [--test-script test]
 *                        [--timeout-minutes 10] [--fail-on red|never] [--cwd .]
 */
 process.exitCode = main(process.argv.slice(2), process.env);
-//#endregion
