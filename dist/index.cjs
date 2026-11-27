@@ -149665,6 +149665,8 @@ const CONDITIONAL_SKIP = /\b(?:it|test|describe)\s*\.\s*skip\s*\(\s*(?!['"`])[^,
 const TITLED = /\b(?:it|test)\s*(?:\.\s*\w+\s*)*\(\s*(['"])((?:\\.|(?!\1)[^\\\n])*)\1/g;
 const FOCUSED = /\b(?:it|test|describe|suite)\s*\.\s*only\b|\bf(?:it|describe)\s*\(|\bonly\s*:\s*true/g;
 const EXITS = /\bprocess\s*\.\s*(?:exit\s*\(|exitCode\s*=|kill\s*\(\s*process\s*\.\s*pid)/g;
+/** An exit that can only fail the run (`process.exit(1)`, `process.exitCode = 1`): never a way to pass. */
+const FAILING_EXIT = /\bprocess\s*\.\s*(?:exit\s*\(\s*[1-9]\d*\s*\)|exitCode\s*=\s*[1-9]\d*\b)/g;
 /** Outside test files only a clean exit is suspect: it ends a real Node test run early, green. */
 const CLEAN_EXIT = /\bprocess\s*\.\s*exit\s*\(\s*0?\s*\)/g;
 const SCRIPT = /\.[cm]?[jt]sx?$/i;
@@ -149737,6 +149739,24 @@ function widensTestScript(was, now) {
 	const added = scriptTokens(now.slice(was.length));
 	return added.length > 0 && added.every(isPathArg);
 }
+/** Shell that can turn a failing step into a pass, or end the run early. */
+const MASKS = /\|\||;|(^|[^&])&(?!&)|(^|[^|])\|(?!\|)|\bexit\b|\btrue\b|passWithNoTests|--bail\s*=?\s*0|\bskip\b/;
+/**
+* Whether `now` only adds steps to a `a && b && c` script: every step it had
+* is still there, in order and unchanged, and each new step is a plain
+* command. With `&&` a step that fails still fails the whole run, so more
+* steps run more checks, never fewer.
+*/
+function addsTestSteps(was, now) {
+	if (now === was || MASKS.test(was.replace(/&&/g, " ")) || MASKS.test(now.replace(/&&/g, " "))) return false;
+	const steps = (script) => script.split("&&").map((step) => step.trim());
+	const old = steps(was);
+	const next = steps(now);
+	if (next.some((step) => step === "")) return false;
+	let at = 0;
+	for (const step of next) if (at < old.length && step === old[at]) at += 1;
+	return at === old.length && next.length > old.length;
+}
 /**
 * Test files the change moves: each one it removes, paired with a test file it
 * creates, the same name first. The pair is judged as one edit, so a move is
@@ -149801,11 +149821,12 @@ function testChanges(files, edits) {
 		if (path === "package.json" || path.endsWith("/package.json")) {
 			const was = testScript(before);
 			const now = testScript(newText);
-			if (was !== null && now !== was && !(now !== null && widensTestScript(was, now))) red.push(`changes the test script in ${path} from "${was}" to "${now ?? "nothing"}"`);
+			if (was !== null && now !== null && addsTestSteps(was, now)) look.push(`adds ${plural$1(now.split("&&").length - was.split("&&").length, "step")} to the test script in ${path}`);
+			else if (was !== null && now !== was && !(now !== null && widensTestScript(was, now))) red.push(`changes the test script in ${path} from "${was}" to "${now ?? "nothing"}"`);
 			continue;
 		}
 		if (!isTestPath(path)) {
-			const executable = entryPoints.has(path) || /(^|\/)bin\//.test(path);
+			const executable = entryPoints.has(path) || /(^|\/)bin\//.test(path) || newText.startsWith("#!");
 			if (SCRIPT.test(path) && !executable && count$1(CLEAN_EXIT, newText) > count$1(CLEAN_EXIT, before)) red.push(`calls process.exit(0) in ${path}, which ends a test run early as a pass`);
 			continue;
 		}
@@ -149822,7 +149843,8 @@ function testChanges(files, edits) {
 		const conditional = count$1(CONDITIONAL_SKIP, newText) - count$1(CONDITIONAL_SKIP, before);
 		if (conditional > 0) look.push(`skips ${conditional === 1 ? "a test" : `${conditional} tests`} in ${path} under a condition, and says why`);
 		if (count$1(FOCUSED, newText) > count$1(FOCUSED, before)) red.push(`marks tests .only in ${path}, so the rest do not run`);
-		if (count$1(EXITS, newText) > count$1(EXITS, before)) red.push(`calls process.exit in ${path}`);
+		const exits = (text) => count$1(EXITS, text) - count$1(FAILING_EXIT, text);
+		if (exits(newText) > exits(before)) red.push(`calls process.exit in ${path}`);
 	}
 	return {
 		red,
@@ -154503,24 +154525,57 @@ function joinPath(base, rel) {
 	}
 	return out.join("/");
 }
-/** tsconfig `paths` in its common single-wildcard form, e.g. `{"@/*": ["./src/*"]}`. */
-function readAliases(files) {
-	const raw = files["tsconfig.json"];
-	if (!raw) return [];
+const NO_RESOLVE = {
+	aliases: [],
+	baseDir: null
+};
+const tsconfigMemo = /* @__PURE__ */ new Map();
+/** The `tsconfig.json` nearest `fromPath`, walking up to the project's root: the one TypeScript uses for it. */
+function nearestTsconfig(files, fromPath) {
+	for (let dir = fromPath ? dirOf(fromPath) : "";; dir = dirOf(dir)) {
+		const path = dir ? `${dir}/tsconfig.json` : "tsconfig.json";
+		if (files[path] !== void 0) return path;
+		if (!dir) return null;
+	}
+}
+function readTsconfig(path, raw) {
 	let parsed;
 	try {
 		parsed = JSON.parse(stripJsonc(raw));
 	} catch {
-		return [];
+		return NO_RESOLVE;
 	}
-	const paths = parsed.compilerOptions?.paths ?? {};
-	const out = [];
-	for (const [pattern, targets] of Object.entries(paths)) {
+	const options = parsed.compilerOptions ?? {};
+	const here = dirOf(path);
+	const base = typeof options.baseUrl === "string" ? joinPath(here, options.baseUrl) : here;
+	const aliases = [];
+	for (const [pattern, targets] of Object.entries(options.paths ?? {})) {
 		const target = targets?.[0];
-		if (!pattern.endsWith("/*") || !target?.endsWith("/*")) continue;
-		out.push([pattern.slice(0, -1), target.slice(0, -1).replace(/^\.\//, "")]);
+		if (!pattern.endsWith("/*") || !(target === "*" || target?.endsWith("/*"))) continue;
+		const folder = joinPath(base, target.slice(0, -1));
+		aliases.push([pattern.slice(0, -1), folder ? `${folder}/` : ""]);
 	}
-	return out;
+	return {
+		aliases,
+		baseDir: typeof options.baseUrl === "string" ? base : null
+	};
+}
+/** How the tsconfig nearest `fromPath` resolves non-relative imports. */
+function tsResolveFor(files, fromPath) {
+	const path = nearestTsconfig(files, fromPath);
+	return path ? memoByText(tsconfigMemo, path, files[path], () => readTsconfig(path, files[path])) : NO_RESOLVE;
+}
+/**
+* tsconfig `paths` in their common single-wildcard form, e.g. `{"@/*": ["./src/*"]}`,
+* from the tsconfig nearest `fromPath` (the root one by default), relative to its `baseUrl`.
+*/
+function readAliases(files, fromPath = "") {
+	return tsResolveFor(files, fromPath).aliases;
+}
+/** Where a bare specifier would be under the tsconfig's `baseUrl`, which TypeScript looks in before packages. */
+function underBaseUrl(fromPath, spec, files) {
+	const { baseDir } = tsResolveFor(files, fromPath);
+	return baseDir === null ? null : joinPath(baseDir, spec);
 }
 /** The paths an import of `candidate` could be, in the order resolution tries them. */
 function candidatePaths(candidate) {
@@ -154536,24 +154591,46 @@ function candidatePaths(candidate) {
 function resolveInWorkspace(candidate, files) {
 	return candidatePaths(candidate).find((path) => files[path] !== void 0) ?? null;
 }
+/** A specifier that names a package or a `baseUrl` path rather than a file, a built-in or a URL. */
+function isBare(spec) {
+	return !(spec.startsWith(".") || spec.startsWith("/") || spec.startsWith("#") || spec.startsWith("@/") || spec.startsWith("node:") || /^[a-z]+:/i.test(spec) || NODE_BUILTINS.has(spec.split("/")[0]));
+}
+/**
+* A path in a build's output folder (`dist/`, `build/`, `out/`) or a code
+* generator's (`__generated__/client/` from Prisma): made by a build step and
+* usually not committed, so its absence proves nothing.
+*/
+function builtOutput(path) {
+	return /(^|\/)(dist|build|out|__generated__|generated)\//.test(path);
+}
 function resolveSpecifier(fromPath, rawSpec, files) {
 	const spec = rawSpec.split("?")[0];
 	if (!spec) return { kind: "unknown" };
 	if (spec.startsWith(".")) {
 		if (escapesRoot(dirOf(fromPath), spec)) return { kind: "unknown" };
-		const hit = resolveInWorkspace(joinPath(dirOf(fromPath), spec), files);
+		const target = joinPath(dirOf(fromPath), spec);
+		const hit = resolveInWorkspace(target, files);
 		return hit ? {
 			kind: "file",
 			path: hit
-		} : { kind: "missing" };
+		} : builtOutput(target) ? { kind: "unknown" } : { kind: "missing" };
 	}
-	for (const [prefix, target] of readAliases(files)) {
+	for (const [prefix, target] of readAliases(files, fromPath)) {
 		if (!spec.startsWith(prefix)) continue;
-		const hit = resolveInWorkspace(`${target}${spec.slice(prefix.length)}`, files);
+		const where = `${target}${spec.slice(prefix.length)}`;
+		const hit = resolveInWorkspace(where, files);
 		return hit ? {
 			kind: "file",
 			path: hit
-		} : { kind: "missing" };
+		} : builtOutput(where) ? { kind: "unknown" } : { kind: "missing" };
+	}
+	const based = isBare(spec) ? underBaseUrl(fromPath, spec, files) : null;
+	if (based !== null) {
+		const hit = resolveInWorkspace(based, files);
+		if (hit) return {
+			kind: "file",
+			path: hit
+		};
 	}
 	if (spec.startsWith("node:") || NODE_BUILTINS.has(spec.split("/")[0])) return { kind: "unknown" };
 	if (spec.startsWith("#")) return { kind: "unknown" };
@@ -154638,9 +154715,20 @@ function importIssues(path, files, outside = []) {
 		if (target === void 0 || !isScriptPath(resolved.path)) continue;
 		const exported = collectExports(resolved.path, target);
 		if (exported.unknown) continue;
-		for (const name of ref.names) if (!exported.names.has(name)) issues.push(`imports { ${name} } from "${ref.spec}" at line ${ref.line}, which does not export it`);
+		const typings = declarationFor(resolved.path, files);
+		const declared = typings ? collectExports(typings, files[typings]) : null;
+		if (declared?.unknown) continue;
+		for (const name of ref.names) if (!exported.names.has(name) && !declared?.names.has(name)) issues.push(`imports { ${name} } from "${ref.spec}" at line ${ref.line}, which does not export it`);
 	}
 	return [...new Set(issues)].slice(0, MAX_ISSUES$2);
+}
+/** The declaration file beside a JavaScript module, when the snapshot has one. */
+function declarationFor(path, files) {
+	const ext = /\.(?:m|c)?jsx?$/.exec(path)?.[0];
+	if (!ext) return null;
+	const stem = path.slice(0, -ext.length);
+	const typings = ext === ".mjs" ? `${stem}.d.mts` : ext === ".cjs" ? `${stem}.d.cts` : `${stem}.d.ts`;
+	return files[typings] !== void 0 ? typings : null;
 }
 /** Files that still exist after the change and imported one of `deleted` before it. */
 function importersOf(before, after, deleted) {
@@ -154923,8 +155011,29 @@ const KEYWORDS = /* @__PURE__ */ new Set([
 	"satisfies",
 	"from"
 ]);
+/**
+* TypeScript's built-in type names, which the parser can read as values in a
+* generic call it does not know (`Effect.callback<string | undefined>(…)`).
+* None is ever a value, so none is ever "not found".
+*/
+const TYPE_WORDS = /* @__PURE__ */ new Set([
+	"string",
+	"number",
+	"boolean",
+	"bigint",
+	"symbol",
+	"object",
+	"any",
+	"unknown",
+	"never",
+	"void",
+	"keyof",
+	"typeof",
+	"readonly",
+	"infer"
+]);
 function isGlobal(name) {
-	return GLOBALS.has(name) || GLOBAL_FAMILY.test(name) || TYPE_PARAM.test(name) || KEYWORDS.has(name);
+	return GLOBALS.has(name) || GLOBAL_FAMILY.test(name) || TYPE_PARAM.test(name) || KEYWORDS.has(name) || TYPE_WORDS.has(name);
 }
 function lineStarts(text) {
 	const starts = [0];
@@ -155006,6 +155115,28 @@ function annotationText(node, text) {
 	const ann = kids(node).find((child) => child.name === "TypeAnnotation");
 	if (!ann) return null;
 	return text.slice(ann.from, ann.to).replace(/^:\s*/, "");
+}
+/**
+* Each name a declaration binds, with its own annotation and initializer:
+* `let a = 0, b = 0, c: string[] = []` is three, and `c`'s type is not `a`'s.
+*/
+function declarators(node, text) {
+	const out = [];
+	let part = [];
+	const close = () => {
+		if (part.length === 0) return;
+		const ann = part.find((child) => child.name === "TypeAnnotation");
+		const eq = part.findIndex((child) => child.name === "Equals");
+		out.push({
+			ann: ann ? text.slice(ann.from, ann.to).replace(/^:\s*/, "") : null,
+			init: eq < 0 ? null : part[eq + 1] ?? null
+		});
+		part = [];
+	};
+	for (const child of kids(node)) if (child.name === ",") close();
+	else part.push(child);
+	close();
+	return out;
 }
 function initializer(node) {
 	const list = kids(node);
@@ -155170,12 +155301,12 @@ function typeIssues(path, input, files) {
 	parsed.iterate({ enter(node) {
 		if (issues.length >= MAX_ISSUES$1) return;
 		if (node.name === "VariableDeclaration" || node.name === "PropertyDeclaration") {
-			const ann = annotationText(node.node, text);
-			const init = initializer(node.node);
-			if (!ann || !init || init.name === "BinaryExpression") return;
-			const expected = checkableType(ann);
-			const got = literalKind(init, text);
-			if (expected && got && expected !== got) pushIssue(issues, starts, node.from, `${got} is not assignable to ${expected}`);
+			for (const { ann, init } of declarators(node.node, text)) {
+				if (!ann || !init || init.name === "BinaryExpression") continue;
+				const expected = checkableType(ann);
+				const got = literalKind(init, text);
+				if (expected && got && expected !== got) pushIssue(issues, starts, init.from, `${got} is not assignable to ${expected}`);
+			}
 			return;
 		}
 		if (node.name === "FunctionDeclaration" || node.name === "ArrowFunction" || node.name === "MethodDeclaration") {
@@ -157138,11 +157269,42 @@ function consoleText(rows, meta) {
 	return lines.join("\n");
 }
 const cell = (text) => text.replace(/\|/g, "\\|").replace(/\n/g, " ");
+const SITE = "https://aperturesais.grok.me";
+/** The pull request's page on Aperture's public checker, which anyone can open. */
+function checkLink(pull) {
+	return `${SITE}/check?pr=${pull.repo}/${pull.number}`;
+}
+/** "Checked by Aperture", green or red, linked to the pull request on Aperture. */
+function badgeMarkdown(result, pull) {
+	const image = `${SITE}/badges/agent-check-${result}.svg`;
+	return `[![${`Checked by Aperture: ${result === "red" ? "held back" : "nothing red"}`}](${image})](${pull ? checkLink(pull) : SITE})`;
+}
+/** Marks Agent Check's own comment, so a later run updates it instead of adding another. */
+const COMMENT_MARKER = "<!-- aperture-agent-check -->";
+/**
+* The one comment on the pull request: the badge, the verdict, a line per
+* check, and where the whole report is. Updated in place on every push.
+*/
+function commentMarkdown(rows, meta, pull, runUrl) {
+	const lines = [
+		COMMENT_MARKER,
+		badgeMarkdown(verdict(rows), pull),
+		"",
+		`**${headline(rows, meta)}**`,
+		"",
+		"| | Check | Result |",
+		"|---|---|---|"
+	];
+	for (const row of shownRows(rows)) lines.push(`| ${MARK[row.status] ?? "?"} | ${cell(row.label)} | ${cell(row.detail.slice(0, 300))} |`);
+	lines.push("", [runUrl ? `[Everything it found](${runUrl})` : null, `[Check any pull request on Aperture](${checkLink(pull)})`].filter(Boolean).join(" · "));
+	return `${lines.join("\n")}\n`;
+}
 /** Markdown for the run's summary page. */
-function summaryMarkdown(rows, meta) {
+function summaryMarkdown(rows, meta, pull = null) {
 	const lines = [
 		`### Aperture Agent Check`,
 		"",
+		...pull ? [badgeMarkdown(verdict(rows), pull), ""] : [],
 		headline(rows, meta),
 		"",
 		"| | Check | Result |",
@@ -157156,6 +157318,65 @@ function summaryMarkdown(rows, meta) {
 	if (meta.notChecked.length > 0) lines.push("", `Not checked: ${listed(meta.notChecked, 20, true)} (binary, or over 1 MB).`);
 	lines.push("", "Same checks as the [Aperture](https://aperturesais.grok.me/bot?tab=check) editor. Nothing left this runner.");
 	return `${lines.join("\n")}\n`;
+}
+// packages/agent-check/src/comment.ts
+/**
+* The one comment Agent Check keeps on a pull request, when the workflow
+* turns it on (`comment: true`): found by its marker and updated in place,
+* so a pull request pushed ten times still has one. It is the only thing
+* the action sends anywhere, through GitHub's own API with the workflow's
+* token, and it never fails the run: without `pull-requests: write`, or on a
+* fork's pull request, it says how to turn it on and the checks stand.
+*/
+/** What to tell the person when GitHub refused, in a line they can act on. */
+function refusalNote(status) {
+	if (status === 403 || status === 404) return "Not posted: the workflow's token cannot write to the pull request. Add \"permissions: pull-requests: write\" to the job (a fork's pull request never can). The checks above are unaffected.";
+	if (status === 401) return "Not posted: GitHub did not accept the token. The checks above are unaffected.";
+	return `Not posted: GitHub answered ${status}. The checks above are unaffected.`;
+}
+async function upsertComment(target, body, fetchImpl = fetch) {
+	const headers = {
+		Accept: "application/vnd.github+json",
+		Authorization: `Bearer ${target.token}`,
+		"X-GitHub-Api-Version": "2022-11-28",
+		"User-Agent": "aperture-agent-check"
+	};
+	const base = `${target.api.replace(/\/$/, "")}/repos/${target.repo}/issues`;
+	try {
+		let existing = null;
+		for (let page = 1; page <= 3 && existing === null; page += 1) {
+			const res = await fetchImpl(`${base}/${target.number}/comments?per_page=100&page=${page}`, { headers });
+			if (!res.ok) return {
+				ok: false,
+				note: refusalNote(res.status)
+			};
+			const comments = await res.json();
+			existing = comments.find((c) => (c.body ?? "").startsWith("<!-- aperture-agent-check -->"))?.id ?? null;
+			if (comments.length < 100) break;
+		}
+		const res = existing ? await fetchImpl(`${base}/comments/${existing}`, {
+			method: "PATCH",
+			headers,
+			body: JSON.stringify({ body })
+		}) : await fetchImpl(`${base}/${target.number}/comments`, {
+			method: "POST",
+			headers,
+			body: JSON.stringify({ body })
+		});
+		if (!res.ok) return {
+			ok: false,
+			note: refusalNote(res.status)
+		};
+		return {
+			ok: true,
+			action: existing ? "updated" : "created"
+		};
+	} catch (error) {
+		return {
+			ok: false,
+			note: `Not posted: ${error instanceof Error ? error.message : String(error)}. The checks above are unaffected.`
+		};
+	}
 }
 // packages/agent-check/src/tests.ts
 /**
@@ -157333,6 +157554,21 @@ function libReader() {
 		return texts.get(name);
 	};
 }
+/** The pull request a GitHub event is for, or null for a push. */
+function pullFromEvent(eventPath, repository) {
+	if (!eventPath) return null;
+	try {
+		const event = JSON.parse((0, node_fs.readFileSync)(eventPath, "utf8"));
+		const number = event.pull_request?.number;
+		const repo = event.repository?.full_name ?? repository;
+		return typeof number === "number" && repo ? {
+			repo,
+			number
+		} : null;
+	} catch {
+		return null;
+	}
+}
 /** The base a GitHub event names: the pull request's base, or the commit before a push. */
 function baseFromEvent(eventPath) {
 	if (!eventPath) return null;
@@ -157368,7 +157604,9 @@ function parseOptions(argv, env) {
 		timeoutMs: (Number.isFinite(minutes) && minutes > 0 ? minutes : 10) * 6e4,
 		failOn,
 		baseline,
-		baselineDir: (0, node_path.resolve)(flag(argv, "baseline-dir") ?? input(env, "baseline-dir") ?? (0, node_path.join)(cwd, ".aperture", "check-baseline"))
+		baselineDir: (0, node_path.resolve)(flag(argv, "baseline-dir") ?? input(env, "baseline-dir") ?? (0, node_path.join)(cwd, ".aperture", "check-baseline")),
+		comment: argv.includes("--comment") || input(env, "comment") === "true",
+		token: input(env, "github-token")
 	};
 }
 function testsFor(options, rev) {
@@ -157474,11 +157712,24 @@ function main(argv, env) {
 		}));
 		for (const line of workflowCommands(annotations)) console.log(line);
 	}
+	const pull = env.GITHUB_ACTIONS ? pullFromEvent(env.GITHUB_EVENT_PATH, env.GITHUB_REPOSITORY) : null;
 	if (env.GITHUB_STEP_SUMMARY) {
-		const summary = result.rows.length > 0 ? summaryMarkdown(result.rows, result.meta) : `### Aperture Agent Check\n\n${result.text.replace(/^Aperture Agent Check: /, "")}\n`;
+		const summary = result.rows.length > 0 ? summaryMarkdown(result.rows, result.meta, pull) : `### Aperture Agent Check\n\n${result.text.replace(/^Aperture Agent Check: /, "")}\n`;
 		(0, node_fs.appendFileSync)(env.GITHUB_STEP_SUMMARY, summary);
 	}
 	if (env.GITHUB_OUTPUT) (0, node_fs.appendFileSync)(env.GITHUB_OUTPUT, `verdict=${result.verdict}\n`);
+	if (options.comment && result.rows.length > 0) {
+		if (!pull) console.log("Comment: not posted, this run is not for a pull request.");
+		else if (!options.token) console.log("Comment: not posted, no token. Pass \"github-token\" (the default is the workflow's own).");
+		else {
+			const runUrl = env.GITHUB_SERVER_URL && env.GITHUB_REPOSITORY && env.GITHUB_RUN_ID ? `${env.GITHUB_SERVER_URL}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}` : null;
+			upsertComment({
+				api: env.GITHUB_API_URL ?? "https://api.github.com",
+				token: options.token,
+				...pull
+			}, commentMarkdown(result.rows, result.meta, pull, runUrl)).then((outcome) => console.log(outcome.ok ? `Comment: ${outcome.action} on #${pull.number}.` : `Comment: ${outcome.note}`));
+		}
+	}
 	return result.exitCode;
 }
 // packages/agent-check/src/cli.ts
