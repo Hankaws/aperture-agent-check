@@ -31,8 +31,10 @@ jobs:
         with:
           node-version: 22
       - run: npm ci # only needed for the tests
-      - uses: hankaws/aperture-agent-check@v1.2
+      - uses: hankaws/aperture-agent-check@v1
 ```
+
+`@v1` follows the newest v1 release, so you get fixes without editing the workflow. Use `@v1.9` to pin exactly this release.
 
 Make it a required check in the branch's protection rules, and a red check blocks the merge.
 
